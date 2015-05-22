@@ -32,6 +32,22 @@ CREATE TABLE if not exists exchange_metadata(
 	PRIMARY KEY (exchange, symbol)
 );
 
+CREATE TABLE if not exists latest_prices(
+	exchange text,
+	symbol text,
+	date timestamp,
+	price double,
+	change double,
+	percentChange double,
+	todaysStart double, 
+	daysMin double,
+	daysMax double,
+	volume double,
+	PRIMARY KEY ((exchange), symbol)
+) WITH compaction = {'class' : 'LeveledCompactionStrategy'};
+
+
 truncate historic_data;
 truncate dividends;
 truncate exchange_metadata;
+truncate latest_prices;
