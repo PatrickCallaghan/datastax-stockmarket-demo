@@ -1,0 +1,44 @@
+package com.oak.tradesystem.commands;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.oak.tradesystem.objects.yahoo.CompanyData;
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.tradesystem.test.TradeProcessor;
+
+public class GetCompanyDataCommand implements Command{
+	
+	private List<String> tickers = new ArrayList<String>();
+	private List<CompanyData> data;
+	
+	public void setTickers(List<String> tickers) {
+		this.tickers = tickers;
+	}
+
+	public List<CompanyData> getCompanyData(){
+		return data;
+	}
+
+	public List<YahooTradeQuote> getYahooTradeQuotes(){
+		
+		List<YahooTradeQuote> quotes = new ArrayList<YahooTradeQuote>();
+		
+		for (CompanyData companyData : data){
+			YahooTradeQuote quote = (YahooTradeQuote)companyData;
+			
+			quotes.add(quote);
+		}
+		
+		return quotes;
+	}
+		
+	
+	public void execute(){
+		TradeProcessor processor = new TradeProcessor(null);
+		data = processor.getCompanyDataList(tickers);
+	}
+	
+	public static void main (String args[]){
+	}
+}

@@ -1,0 +1,32 @@
+package com.oak.tradesystem.objects;
+
+public class TAMap{
+	
+	private String taName;
+	private double taValue;
+
+	public TAMap(String taName, double taValue){
+		this.taName = taName;
+		this.taValue = taValue;
+	}
+
+	public String getTaName() {
+		return taName;
+	}
+
+	public void setTaName(String taName) {
+		this.taName = taName;
+	}
+
+	public double getTaValue() {
+		return taValue;
+	}
+
+	public void setTaValue(double taValue) {
+		this.taValue = taValue;
+	}
+	
+	public String toString(){				
+		return taName + " : " + new Double(taValue).intValue();
+	}
+}

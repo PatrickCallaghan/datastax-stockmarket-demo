@@ -1,0 +1,8 @@
+package com.oak.tradesystem.exception;
+
+public class TradeSystemException extends Exception {
+
+	public TradeSystemException(String message){
+		super (message);
+	}
+}

@@ -1,0 +1,50 @@
+package com.oak.tradesystem.commands;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.oak.tradesystem.objects.yahoo.TickerNameVO;
+import com.oak.utils.UrlUtil;
+
+public class GetTickersByIndexCommand implements Command {
+
+	private String indexName;
+	private String url;
+	private List<TickerNameVO> tickers = new ArrayList<TickerNameVO>();
+	
+	
+	public List<TickerNameVO> getTickers() {
+		return tickers;
+	}
+
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
+		this.url = "http://uk.old.finance.yahoo.com/d/quotes.csv?s=" + this.indexName + "&f=sn&e=.csv";
+	}
+
+	public void execute(){
+		try {
+			List data = UrlUtil.getURLDataList(new URL(url));
+		
+			for (int i=0; i < data.size(); i++){
+				
+				String str = (String)data.get(i);
+				
+				String[] array= str.split(",");
+				
+				TickerNameVO vo = new TickerNameVO();
+				vo.setTicker(array[0]);
+				vo.setName(array[1]);
+				
+				tickers.add(vo);				
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
+

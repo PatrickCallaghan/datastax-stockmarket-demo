@@ -1,0 +1,132 @@
+package com.oak.tradesystem.commands;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.oak.tradesystem.objects.yahoo.YahooQuoteAnalysis;
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.tradesystem.technalysis.MovingAverageTA;
+import com.oak.tradesystem.technalysis.OscillatorTA;
+import com.oak.tradesystem.test.TradeProcessor;
+import com.oak.utils.Utilities;
+
+public class GetQuotesXMLCommand implements Command, XMLable{
+	
+	private String name;
+	private String xml;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void execute(){
+		TradeProcessor processor = new TradeProcessor(null);
+		Object[] quotes = processor.getStockQuotes(name, "", "");
+		
+		//create the lows, highs and closes
+        double closes[] = new double[quotes.length];
+        double lows[] = new double[quotes.length];
+        double highs[] = new double[quotes.length];
+        
+        List<YahooQuoteAnalysis> analysisList = new ArrayList<YahooQuoteAnalysis>();
+        
+        for (int i=0; i<quotes.length; i++){
+        	YahooTradeQuote quote = (YahooTradeQuote)quotes[i];
+        	
+        	closes[i] = quote.getClose();
+        	lows[i] = quote.getLow();
+        	highs[i] = quote.getHigh();
+        	
+        	YahooQuoteAnalysis analysis = new YahooQuoteAnalysis(quote);
+        	analysisList.add(analysis);
+        }
+        
+    	//Convert to a Analysis object and populated with Moving averages
+    	MovingAverageTA movingAverage = new MovingAverageTA(closes, lows, highs);
+    	    	
+    	double[] ma12 = movingAverage.getExpMovingAverageOwn(12);
+    	double[] ma26 = movingAverage.getExpMovingAverageOwn(26);
+    	double[] ma20 = movingAverage.getSimpleMovingAverage(20);
+    	double[] ma50 = movingAverage.getSimpleMovingAverage(50);
+    	double[] ma100 = movingAverage.getSimpleMovingAverage(100);
+       
+    	//Get the MACD number 
+    	double[] macd = getMacd(ma12, ma26);
+    	
+    	//Get the ema9 of the MACD    	
+    	MovingAverageTA movingAverageMacd = new MovingAverageTA(macd);
+    	double[] ma9 = movingAverageMacd.getExpMovingAverageOwn(9);
+    	
+    	OscillatorTA oscillatorTA = new OscillatorTA();
+    	double[] rsi = oscillatorTA.getRSI(closes, 14);
+    	
+    	//Convert to a Analysis object and populated with Moving averages
+        for (int i=0; i<analysisList.size(); i++){
+        
+        	YahooQuoteAnalysis analysis = (YahooQuoteAnalysis)analysisList.get(i);
+        	
+        	if(i < ma12.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MACD12, ma12[i]);
+        	}
+        	if(i < ma26.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MACD26, ma26[i]);
+        	}
+        	if(i < ma20.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MA20, ma20[i]);
+        	}
+        	if(i < ma50.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MA50, ma50[i]);
+        	}
+        	if(i < ma100.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MA100, ma100[i]);
+        	}
+        	if(i < macd.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MACD, macd[i]);
+        	}
+        	if(i < ma9.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.EMA9_MACD, ma9[i]);
+        	}
+        	if(i < macd.length && i < ma9.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.MACD_DIFF, macd[i]-ma9[i]);
+        	}
+        	if(i < rsi.length){
+        		analysis.addToTAMap(YahooQuoteAnalysis.RSI, rsi[i]);
+        	}
+        }
+    	
+ 		xml = Utilities.convertListToXML("quotes", analysisList,150);
+	}
+	 
+	private double[] getMacd(double[] fast, double[] slow) {
+		
+		double[] macd = new double[slow.length];
+		
+		for (int i=0; i < slow.length; i++){
+			macd[i] = fast[i] - slow[i];
+		}
+	
+		return macd;
+	}
+
+	public String getXML(){
+		return xml;
+	}
+	
+	public static void main (String args[]){
+		
+		GetQuotesXMLCommand command = new GetQuotesXMLCommand();
+		command.setName("AAPL");
+		command.execute();
+		//System.out.println(command.getXML());
+		
+		try {
+			Utilities.writeStringToFile(command.getXML(), "//Users//patrick//Documents//workspace//FlexTest//src//Appledata.xml", false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Completed.");
+		
+	}
+}

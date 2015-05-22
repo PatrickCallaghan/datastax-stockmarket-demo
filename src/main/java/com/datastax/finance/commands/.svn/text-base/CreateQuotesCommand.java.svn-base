@@ -1,0 +1,116 @@
+package com.oak.tradesystem.commands;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.yahoo.QuoteVO;
+
+public class CreateQuotesCommand implements Command {
+
+	private List<String> indexNames = new ArrayList<String>();
+	private Map<Long, QuoteVO> lastQuotesMap = new HashMap<Long, QuoteVO>();
+	
+	public void addIndexName(String indexName) {
+		this.indexNames.add(indexName);
+	}
+	
+	public Map<Long, QuoteVO> getLastQuotesMap() {
+		return lastQuotesMap;
+	}
+
+	public void setLastQuotesMap(Map<Long, QuoteVO> lastQuotesMap) {
+		this.lastQuotesMap = lastQuotesMap;
+	}
+
+	public void execute() {
+		// TODO Auto-generated method stub
+		Properties properties = new Properties();
+	    try {
+	        properties.load(new FileInputStream("tradesystem.properties"));
+	    } catch (IOException e) {
+	    	System.out.println("Could not load properties - exiting : " + e.getMessage());
+	    	e.printStackTrace();
+	    	System.exit(1);
+	    }
+	    	   
+	    for(String indexName : indexNames){
+	    
+		    LoadTickersCommand loadTickersCommand = new LoadTickersCommand(properties);
+		    loadTickersCommand.execute();
+		    Map<String, Long> tickerIds = loadTickersCommand.getTickerIdMap();
+		    Map<Long, String> tickerNameMap = loadTickersCommand.getTickerNameMap();
+		    
+		    GetURLQuotesCommand getURLQuotesCommand = new GetURLQuotesCommand();
+		    getURLQuotesCommand.setTickerIds(tickerIds);
+		    getURLQuotesCommand.setIndexName(indexName);
+		    getURLQuotesCommand.execute(); 
+		    		    
+		    List<QuoteVO> quotes = getURLQuotesCommand.getQuotes();
+		    List<QuoteVO> toAdd = new ArrayList<QuoteVO>();
+		    
+		    //Map will always hold the lasted quotes. 
+		    if (lastQuotesMap != null){
+		    
+		    	//For each quote see if the time since updated has changed.
+		    	for (QuoteVO quote : quotes){
+		    		QuoteVO lastQuote = (QuoteVO)lastQuotesMap.get(new Long(quote.getTickerId()));
+		    		
+		    		if (lastQuote!=null){
+		    			if (lastQuote.getTime().getTime()!=quote.getTime().getTime()){
+		    				quote.setVolumeChange(quote.getVolume() - lastQuote.getVolume());
+		    				
+		    				//Check if the volume has doubled since the last quote
+		    				if (quote.getVolumeChange() > lastQuote.getVolumeChange()*5){
+		    					double percentageChange = new Double (quote.getVolumeChange()/lastQuote.getVolumeChange()).doubleValue();
+		    					
+		    					System.out.println(tickerNameMap.get(new Long(quote.getTickerId())) + " - Volume doubled since last quote - last price:" + lastQuote.getPrice() + " new price:" + quote.getPrice() + " increase in volume is " + percentageChange + "%");
+		    				}
+		    				
+		    				toAdd.add(quote);		    				
+		    				lastQuotesMap.put(quote.getTickerId(), quote);		    				
+		    			}
+		    		}else{
+		    			lastQuotesMap.put(quote.getTickerId(), quote);
+		    			quote.setVolumeChange(quote.getVolume());
+		    			toAdd.add(quote);
+		    		}
+		    	}
+		    }
+		   
+		    InsertQuotesCommand insertQuotesCommand = new InsertQuotesCommand(properties);
+		    insertQuotesCommand.setQuotes(toAdd);
+		    insertQuotesCommand.execute();
+	    }
+	}
+
+	/**
+	 * @param args
+	 * @throws InterruptedException 
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		CreateQuotesCommand command = new CreateQuotesCommand();
+		command.addIndexName("@%5EFTAS");//FTSE All Share
+		//command.addIndexName("@%5EDJI");//Dow Jones
+		//command.addIndexName("@%5EIXIC");//Nasdaq
+		command.addIndexName("@%5EGSPC");//S & P 
+		//command.addIndexName("@%5ESTOXX50E");//European 50		
+
+		while(true){
+			command.execute();
+			
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

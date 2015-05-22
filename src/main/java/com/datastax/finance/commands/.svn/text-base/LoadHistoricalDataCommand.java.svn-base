@@ -1,0 +1,66 @@
+package com.oak.tradesystem.commands;
+
+import java.sql.Connection;
+import java.util.List;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.utils.DatabaseUtil;
+
+public class LoadHistoricalDataCommand implements Command{
+	
+	private String name;
+	private int length;
+	private double closes[];
+	private List<YahooTradeQuote> list;
+	private Properties properties;
+
+	public LoadHistoricalDataCommand(Properties properties){
+		this.properties = properties;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setLength(int length) {
+		this.length = length;
+	}
+	
+	public double[] getCloses() {
+		return closes;
+	}
+
+	public List<YahooTradeQuote> getList() {
+		return list;
+	}
+
+	public void execute(){
+		
+		try {
+	    	DatabaseUtil db = new DatabaseUtil();
+	    	Connection connection = db.getMYSQLConnection(this.properties);
+	    	
+	    	list = db.getHistoricalData(connection, properties, this.name, this.length);
+	    	connection.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (list.size()>0){
+			closes = new double[list.size()];
+			
+	        for (int i=0; i < list.size(); i++){
+	        	YahooTradeQuote quote = (YahooTradeQuote)list.get(i);
+	        	
+	        	closes[i] = quote.getClose();
+	        }
+		}
+	}
+	 	
+	public static void main (String args[]){
+		
+	}
+}

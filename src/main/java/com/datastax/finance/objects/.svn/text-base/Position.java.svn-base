@@ -1,0 +1,48 @@
+package com.oak.tradesystem.objects;
+public class Position extends Trade {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8417301665433423621L;
+	
+	private String reasonForEntry;
+	private String reasonForClose;
+	private String imageLocation;
+	
+	private Double todaysPrice;
+
+	public String getReasonForEntry() {
+		return reasonForEntry;
+	}
+
+	public void setReasonForEntry(String reasonForEntry) {
+		this.reasonForEntry = reasonForEntry;
+	}
+
+	public String getReasonForClose() {
+		return reasonForClose;
+	}
+
+	public void setReasonForClose(String reasonForClose) {
+		this.reasonForClose = reasonForClose;
+	}
+
+	public String getImageLocation() {
+		return imageLocation;
+	}
+
+	public void setImageLocation(String imageLocation) {
+		this.imageLocation = imageLocation;
+	}
+
+	public Double getTodaysPrice() {
+		return todaysPrice;
+	}
+
+	public void setTodaysPrice(Double todaysPrice) {
+		this.todaysPrice = todaysPrice;
+	}
+	
+	
+}

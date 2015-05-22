@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands
+END
+XMLable.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/XMLable.java
+END
+GetStockQuotesCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetStockQuotesCommand.java
+END
+CreateTickerCacheFromListCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/CreateTickerCacheFromListCommand.java
+END
+InsertQuotesCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/InsertQuotesCommand.java
+END
+InsertStockAnalysisVOsCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/InsertStockAnalysisVOsCommand.java
+END
+GetQuotesReportCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetQuotesReportCommand.java
+END
+InsertCorrelationCoefficientsCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/InsertCorrelationCoefficientsCommand.java
+END
+GetHistoricalDataCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetHistoricalDataCommand.java
+END
+Command.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/Command.java
+END
+LoadHistoricalDataCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/LoadHistoricalDataCommand.java
+END
+GetQuotesXMLCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetQuotesXMLCommand.java
+END
+GetCorrelationCoefficientCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetCorrelationCoefficientCommand.java
+END
+LoadTickersCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/LoadTickersCommand.java
+END
+GetURLTickersCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetURLTickersCommand.java
+END
+GetTickersByIndexCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetTickersByIndexCommand.java
+END
+InsertHistoricalDataCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/InsertHistoricalDataCommand.java
+END
+CreateTickerCacheCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/CreateTickerCacheCommand.java
+END
+GetCompanyDataCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetCompanyDataCommand.java
+END
+CompareStocksCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/CompareStocksCommand.java
+END
+CreateQuotesCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/CreateQuotesCommand.java
+END
+GetURLQuotesCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetURLQuotesCommand.java
+END
+GetCompanyDataXMLCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetCompanyDataXMLCommand.java
+END
+GetRSSFeedXMLCommand.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/commands/GetRSSFeedXMLCommand.java
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/yahoo
+END
+YahooQuoteAnalysis.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/yahoo/YahooQuoteAnalysis.java
+END
+YahooTradeQuote.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/yahoo/YahooTradeQuote.java
+END
+QuoteVO.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/yahoo/QuoteVO.java
+END
+QuoteViewVO.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/yahoo/QuoteViewVO.java
+END
+TickerNameVO.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/yahoo/TickerNameVO.java
+END
+CompanyData.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/OakIt-TradeSystem/!svn/ver/9/TradeSystem/src/com/oak/tradesystem/objects/yahoo/CompanyData.java
+END

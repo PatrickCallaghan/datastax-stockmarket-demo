@@ -1,0 +1,31 @@
+package com.oak.tradesystem.commands;
+
+public class CompareStocksCommand implements Command {
+
+	private String stock1;
+	private String stock2;
+	
+	public void execute() throws Exception {
+		
+		
+
+	}
+	
+	public void setStock1(String stock1) {
+		this.stock1 = stock1;
+	}
+
+	public void setStock2(String stock2) {
+		this.stock2 = stock2;
+	}
+
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart", "table"]});
+      google.setOnLoadCallback(drawChart);
+      
+      var ticker = 'BARC.L';
+      var exchange = 'FTSE';
+
+	  function myFunction(){
+	    ticker = 'BA.L'
+	    drawChart() 
+	  }
+
+	  function drawChart() {
+
+		var chartData;
+	  
+        $.ajax({
+          url:  'http://localhost:8080/datastax-stockmarket-demo/rest/get/candlestick/timeseries?exchange=FTSE&ticker=' + ticker + '&start=1198195200000&end=1201076400000',
+          sync: "true",	
+          success: function(data){
+            if(data){
+                chartData = data;
+                
+                var dataForChart = google.visualization.arrayToDataTable(chartData, true);
+
+                var options = {
+                  legend:'none',
+                  animation: {startup: true},
+                  bar: { groupWidth: '90%' },
+            	  candlestick: { fallingColor: { strokeWidth: '1'}, risingColor: { strokeWidth: '1'}},
+                };
+
+               var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+  		       chart.draw(dataForChart, options);
+            }
+          },
+		   error: function(XMLHttpRequest, textStatus, errorThrown) { 
+              alert("Status: " + textStatus); 
+             alert("Error: " + errorThrown); 
+          }   
+          
+        })
+      	drawTable()
+      }
+
+      function drawTable() {
+        var data1 = new google.visualization.DataTable();
+        data1.addColumn('number', 'Change');
+        data1.addColumn('string', 'Ticker');
+        data1.addColumn('string', 'Name');
+       
+        data1.addRows([
+          [22.1, 'AAPL', 'Apple'],
+          [23.1, 'NFLX', 'Netflix']
+        ]);
+
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('number', 'Change');
+        data2.addColumn('string', 'Ticker');
+        data2.addColumn('string', 'Name');
+       
+        data2.addRows([
+          [22.1, 'AAPL2', 'Apple'],
+          [23.1, 'NFLX2', 'Netflix']
+        ]);
+
+
+        var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+        var table2 = new google.visualization.Table(document.getElementById('table_div2'));
+
+        table1.draw(data1);
+        table2.draw(data2);
+  }
+    </script>
+  </head>
+  <body>
+  
+    <div id="table_div1" style="position: relative; bottom: 0px	" ></div>
+    <div id="table_div2" style="position: relative; bottom: -20px" ></div>
+    <div id="chart_div" style="position: fixed; top:0px; left: 220px; width: 1100px; height: 800px;"></div>
+    <p id="demo" style="position: relative; bottom: -20px" onclick="myFunction()">Click me to change the chart.</p>
+  </body>
+</html>

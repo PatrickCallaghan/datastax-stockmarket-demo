@@ -1,0 +1,131 @@
+/*
+ */
+package com.oak.tradesystem.objects;
+
+import java.util.HashMap;
+
+
+/**
+ */
+public class StockMap {
+
+  public static HashMap stockNames = new HashMap();
+  
+  static { 
+    stockNames.put("^FTSE", "FTSE 100");
+    stockNames.put("III.L", "3I GROUP PLC");
+    stockNames.put("AL.L", "AFRICAN GOLD PLC");
+    stockNames.put("AUN.L", "ALLIANCE & LEICE");
+    stockNames.put("ALLD.L", "ALLIED DOMECQ");
+    stockNames.put("AVZ.L", "AMVESCAP PLC");
+    stockNames.put("AAL.L", "ANGLO AMER PLC");
+    stockNames.put("ANTO.L", "Antofagasta PLC");
+    stockNames.put("ABF.L", "ASSOC BR FOOD");
+    stockNames.put("AZN.L", "ASTRAZENECA PLC");
+    stockNames.put("AV.L", "AVIVA PLC");
+    stockNames.put("BSY.L", "British Sky Broadcasting Group PLC");
+    stockNames.put("BAA.L", "BAA PLC");
+    stockNames.put("BA.L", "BAE SYSTEMS PLC");
+    stockNames.put("BARC.L", "BARCLAYS PLC");
+    stockNames.put("BG.L", "BG GROUP PLC");
+    stockNames.put("BLT.L", "BHP BILLITON");
+    stockNames.put("BOC.L", "BOC GROUP PLC");
+    stockNames.put("BOOT.L", "BOOTS GROUP PLC");
+    stockNames.put("BP.L", "BP PLC");
+    stockNames.put("BLND.L", "BRIT LAND CO PLC");
+    stockNames.put("BATS.L", "BRIT AMER TOBACC");
+    stockNames.put("BAY.L", "BRIT AIRWAYS PLC");
+    stockNames.put("BT.L", "BT GROUP PLC");
+    stockNames.put("BSY.L", "BSKYB PLC");
+    stockNames.put("BNZL.L", "BUNZL PLC");
+    stockNames.put("CW.L", "CABLE & WIRELESS");
+    stockNames.put("CBRY.L", "CADBURY SCHWEPPE ");
+    stockNames.put("CNE.L", "Cairn Energy PLC");
+    stockNames.put("CPI.L", "CAPITA GROUP PLC");
+    stockNames.put("CCL.L", "Carnival Plc");
+    stockNames.put("CNA.L", "CENTRICA PLC");
+    stockNames.put("CPG.L", "COMPASS GROUP");
+    stockNames.put("CS.L", "CORUS GROUP PLC");
+    stockNames.put("DMGOa.L", "DAILY MAIL TST A");
+    stockNames.put("DGE.L", "DIAGEO PLC");
+    stockNames.put("DXNS.L", "DIXONS GROUP");
+    stockNames.put("EMA.L", "EMI GROUP PLC");
+    stockNames.put("ETI.L", "Enterprise Inns PLC");
+    stockNames.put("EXL.L", "EXEL PLC");
+    stockNames.put("FP.L", "FRIENDS PROVIDENT");
+    stockNames.put("GLH.L", "GALLAHER GROUP");    
+    stockNames.put("GSK.L", "GLAXOSMITHKLINE");
+    stockNames.put("GUS.L", "GREAT UNIV STORE");
+    stockNames.put("HNS.L", "HANSON");
+    stockNames.put("HAS.L", "HAYS PLC");
+    stockNames.put("HBOS.L", "HBOS");
+    stockNames.put("HG.L", "HILTON GROUP PLC");
+    stockNames.put("HSBA.L", "HSBC HLDGS PLC");
+    stockNames.put("IMT.L", "IMPERIAL TOBACCO");
+    stockNames.put("IHG.L", "INTERCONTINENTAL HOTELS GROUP PLC");
+    stockNames.put("ITV.L", "ITV PLC");
+    stockNames.put("JMAT.L", "JOHNSON MATTHEY");
+    stockNames.put("KGF.L", "KINGFISHER PLC");
+    stockNames.put("LAND.L", "LAND SECURITIES GROUP PLC");
+    stockNames.put("LGEN.L", "LEGAL & GEN GRP");
+    stockNames.put("LLOY.L", "LLOYDS TSB GROUP");
+    stockNames.put("EMG.L", "MAN GROUP PLC");
+    stockNames.put("MKS.L", "MARKS & SPENCER GROUP PLC");
+    stockNames.put("OOM.L", "MMO2 PLC");
+    stockNames.put("MRW.L", "MORRISON (WM)SUP");
+    stockNames.put("NGT.L", "National Grid Transco PLC");
+    stockNames.put("NXT.L", "NEXT PLC");
+    stockNames.put("NRK.L", "NORTHERN ROCK");
+    stockNames.put("OML.L", "OLD MUTUAL PLC");
+    stockNames.put("PSON.L", "PEARSON PLC");
+    stockNames.put("PRU.L", "PRUDENTIAL PLC");
+    stockNames.put("RB.L", "RECKITT BENCKISE");
+    stockNames.put("REL.L", "REED ELSEIVER");
+    stockNames.put("RTO.L", "RENTOKIL INITIAL");
+    stockNames.put("RTR.L", "REUTERS GRP PLC");
+    stockNames.put("REX.L", "Rexam PLC");
+    stockNames.put("RIO.L", "RIO TINTO PLC-R");
+    stockNames.put("RR.L", "ROLLS-ROYCE GROUP PLC");
+    stockNames.put("RSA.L", "ROYAL & SUN ALLI");
+    stockNames.put("RBS.L", "ROYAL BK SCOTLAN");
+    stockNames.put("SAB.L", "SOUTH AFR BREWS");
+    stockNames.put("SGE.L", "SAGE GROUP");
+    stockNames.put("SBRY.L", "SAINSBURY (J) PLC");
+    stockNames.put("SDR.L", "SCHRODERS PLC");
+    stockNames.put("SDRt.L", "SCHRODERS PLC");
+    stockNames.put("SCTN.L", "SCOTTISH AND NEWCASTLE PLC");
+    stockNames.put("SSE.L", "SCOTTISH & SOUTH");
+    stockNames.put("SPW.L", "SCOTTISH POWER");
+    stockNames.put("SVT.L", "SEVERN TRENT");
+    stockNames.put("SHEL.L", "SHELL TRANSP-REG");
+    stockNames.put("SHP.L", "SHIRE PHARM PLC");  
+    stockNames.put("SN.L", "SMITH & NEPHEW");
+    stockNames.put("SMIN.L", "SMITHS GROUP");
+    stockNames.put("STAN.L", "STANDARD CHARTERED");
+    stockNames.put("TATE.L", "Tate & Lyle PLC");
+    stockNames.put("TSCO.L", "TESCO PLC");
+    stockNames.put("ULVR.L", "UNILEVER PLC");
+    stockNames.put("UU.L", "UNITED UTILITIES");
+    stockNames.put("UUa.L", "United Utilities PLC");
+    stockNames.put("VOD.L", "VODAFONE GROUP");
+    stockNames.put("WTB.L", "Whitbread PLC");
+    stockNames.put("WMH.L", "William Hill PLC");
+    stockNames.put("WOS.L", "WOLSELEY");
+    stockNames.put("WPP.L", "WPP GROUP PLC");
+    stockNames.put("XTA.L", "XSTRATA PLC");
+    stockNames.put("YELL.L", "Yell Group PLC");
+    
+    stockNames.put("AAPL", "Apple");    
+    
+  }
+  
+  public static String getStockName(String stockCode){
+    
+    if (stockNames.containsKey(stockCode)){
+      String name = (String)stockNames.get(stockCode);
+      return name;      
+    }else
+      return stockCode;
+    
+  }
+}

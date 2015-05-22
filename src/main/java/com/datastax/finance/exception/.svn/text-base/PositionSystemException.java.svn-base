@@ -1,0 +1,8 @@
+package com.oak.tradesystem.exception;
+
+public class PositionSystemException extends Exception {
+
+	public PositionSystemException(String message){
+		super (message);
+	}
+}

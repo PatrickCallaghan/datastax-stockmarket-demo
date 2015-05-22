@@ -1,0 +1,78 @@
+package com.oak.tradesystem.commands;
+
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.oak.tradesystem.objects.yahoo.QuoteVO;
+import com.oak.utils.UrlUtil;
+
+public class GetURLQuotesCommand implements Command {
+
+	private String indexName;
+	private String url;
+	private List<QuoteVO> quotes = new ArrayList<QuoteVO>();
+	private Map<Long, QuoteVO> quoteMap = new HashMap<Long, QuoteVO>();
+	private Map<String, Long> tickerIds = null;
+
+	// Date format 4:35PM 12/04/2008
+	private static String dateFormat = "hh:mma MM/dd/yyyy";
+	private static DateFormat dateFormatter = new SimpleDateFormat(dateFormat);
+
+	public List<QuoteVO> getQuotes() {
+		return quotes;
+	}
+
+	public void setTickerIds(Map<String, Long> tickerIds) {
+		this.tickerIds = tickerIds;
+	}
+
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
+		this.url = "http://uk.old.finance.yahoo.com/d/quotes.csv?s="
+				+ this.indexName + "&f=sl1d1t1v&e=.csv";
+	}
+
+	public Map<Long, QuoteVO> getQuoteMap() {
+		for (QuoteVO quote : this.quotes) {
+
+			this.quoteMap.put(new Long(quote.getTickerId()), quote);
+		}
+
+		return quoteMap;
+	}
+
+	public void execute() {
+		try {
+			List data = UrlUtil.getURLDataList(new URL(url));
+
+			for (int i = 0; i < data.size(); i++) {
+
+				String str = (String) data.get(i);
+
+				String[] array = str.split(",");
+
+				QuoteVO vo = new QuoteVO();
+
+				// Look up the ticker id from the ticker map
+				long tickerId = tickerIds.get(array[0].trim());
+				vo.setTickerId(tickerId);
+				vo.setPrice(Double.parseDouble(array[1].trim()));
+				vo.setTime(dateFormatter.parse(array[2].trim() + " "
+						+ array[3].trim()));
+				vo.setVolume(Double.parseDouble(array[4].trim()));
+
+				quotes.add(vo);
+			
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

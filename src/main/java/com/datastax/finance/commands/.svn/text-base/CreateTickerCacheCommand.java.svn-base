@@ -1,0 +1,96 @@
+package com.oak.tradesystem.commands;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.yahoo.TickerNameVO;
+import com.oak.utils.DatabaseUtil;
+
+public class CreateTickerCacheCommand implements Command {
+
+	private Properties properties;
+	private List<TickerNameVO> tickerNames;
+	
+	public CreateTickerCacheCommand(Properties properties){
+		this.properties = properties;
+	}
+	
+	
+	public void setTickerNames(List<TickerNameVO> tickerNames) {
+		this.tickerNames = tickerNames;
+	}
+
+	public void execute(){
+		
+		try{		
+	    	DatabaseUtil db = new DatabaseUtil();
+	    	Connection connection = db.getMYSQLConnection(properties);
+	    	
+	    	for (TickerNameVO tickerName:tickerNames){
+	    	
+	    		db.insertTrackerName(connection, properties, tickerName.getTicker(), tickerName.getName(), tickerName.getIndex());
+	    	}
+	    	
+	    	connection.close();
+	    	
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String args[]){
+		Properties properties = new Properties();
+	    try {
+	        properties.load(new FileInputStream("tradesystem.properties"));
+	    } catch (IOException e) {
+	    }
+	    
+	    try{
+	    	String indexName = "@%5EFTAS";
+	    	
+	    	System.out.println("Creating Ticker Cache for " + indexName.substring(4));
+	    	long time0 = System.currentTimeMillis();
+	    	
+	    	LoadTickersCommand loadTickersCommand = new LoadTickersCommand(properties);
+	    	loadTickersCommand.execute();
+	    	List<String> existingTickers = loadTickersCommand.getTickers();
+	    	
+	    	
+	    	long time1 = System.currentTimeMillis();
+	    	System.out.println("Loaded tickers from DB in " + (time1-time0) + "ms.");
+	    	
+	    	GetURLTickersCommand loadTickers = new GetURLTickersCommand();
+	    	loadTickers.setIndexName(indexName);
+	    	loadTickers.execute();
+	    	List<TickerNameVO> tickerNames = loadTickers.getTickers();
+	    	
+	    	List<TickerNameVO> toAdd = new ArrayList<TickerNameVO>();
+	    	
+	    		//If ticker exists, remove it from list
+    		for (TickerNameVO newTicker : tickerNames){
+    			
+    			if (!existingTickers.contains(newTicker.getTicker())){
+    				toAdd.add(newTicker);
+    			}	    			
+    		}
+	    	
+	    	long time2 = System.currentTimeMillis();
+	    	System.out.println("Loaded tickers in " + (time2-time1) + "ms.");
+	    	
+	    	CreateTickerCacheCommand createTickerCacheCommand = new CreateTickerCacheCommand(properties);
+	    	createTickerCacheCommand.setTickerNames(toAdd);
+	    	createTickerCacheCommand.execute();
+	    	
+	    	long time3 = System.currentTimeMillis();
+	    	System.out.println("Created " + toAdd.size() + " new tickers in " + (time3-time2) + "ms.");
+	    	
+	    }catch (Exception e){
+	    	e.printStackTrace();
+	    }
+	}
+
+}

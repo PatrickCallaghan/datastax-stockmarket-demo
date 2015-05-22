@@ -1,0 +1,43 @@
+package com.oak.tradesystem.objects.yahoo;
+
+import java.util.Date;
+
+public class QuoteViewVO {
+
+	private String ticker;
+	private String name;
+	private Date time;
+	private double price;
+ 	private double volume;
+ 	
+	public String getTicker() {
+		return ticker;
+	}
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public double getVolume() {
+		return volume;
+	}
+	public void setVolume(double volume) {
+		this.volume = volume;
+	}
+}

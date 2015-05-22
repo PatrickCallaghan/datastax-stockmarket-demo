@@ -1,0 +1,49 @@
+package com.oak.tradesystem.commands;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.utils.DatabaseUtil;
+
+public class InsertHistoricalDataCommand implements Command{
+
+	private List<YahooTradeQuote> historicalData;
+	private Long tickerId;
+	private Properties props;
+
+	public InsertHistoricalDataCommand(Properties properties){
+		this.props = properties;
+	}
+	
+	public void setHistoricalData(List<YahooTradeQuote> data) {
+		this.historicalData = data;
+	}
+	
+	public void setHistoricalData(YahooTradeQuote data) {
+		this.historicalData = new ArrayList<YahooTradeQuote>();
+		this.historicalData.add(data);
+	}
+	
+	public void setTickerId(Long tickerId) {
+		
+		this.tickerId = tickerId;
+	}
+	
+
+	public void execute(){
+		try{		
+	    	DatabaseUtil db = new DatabaseUtil();
+	    	Connection connection = db.getMYSQLConnection(props);
+	    	
+	    	db.insertHistoricalData(connection, props, tickerId, this.historicalData);
+	    	
+	    	connection.close();
+	    	
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+}

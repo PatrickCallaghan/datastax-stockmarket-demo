@@ -1,0 +1,87 @@
+//(c) 2005, eSpeed Limited
+package com.oak.tradesystem.objects.yahoo;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import com.oak.tradesystem.commands.XMLable;
+
+/**
+ * Trades come in from Historical data in the form
+ * 
+ * 	Date		Open	High	Low		Close	Volume	Adj. Close*
+ *	13-Feb-06	646		655.5	646		651.5	47044608	651.5
+ *
+ * @author pcallaghan
+ */
+public class YahooTradeQuote extends com.oak.tradesystem.objects.Quote implements XMLable{
+
+    private String dateFormat = "yyyy-MM-dd";
+    private DateFormat dateFormatter = SimpleDateFormat.getDateInstance();    
+    private DateFormat printFormatter = new SimpleDateFormat(dateFormat);    
+    /**
+     * 
+     */
+    public YahooTradeQuote() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    public void setDate(String formatterDate){
+        
+        try{
+        	
+            super.setDate(printFormatter.parse(formatterDate));
+        }catch (ParseException pe){
+            System.out.println("ParseException : " + pe.getMessage() + " DATE : " + formatterDate);
+            
+            //todo Logging 
+        }
+    }
+    
+    public String printDate(){
+        return printFormatter.format(super.getDate());
+    }
+
+    public String toString(){
+        
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("Name : " + name);    
+        
+        if (date!=null)
+            buffer.append(" date : " + this.printDate());
+        
+        buffer.append(" Close : " + close);
+        buffer.append(" Volume : " + volume);
+        
+        return buffer.toString();
+    }
+    
+    public String getXML(){
+    	return this.getXML(true);
+    }
+    
+    public String getXML(boolean finished){
+    	StringBuffer buffer = new StringBuffer();
+    	
+    	if (finished){
+    		buffer.append("<yahootradequote>\n");
+    	}
+    	
+    	buffer.append("<name>" + this.getName() + "</name>\n");
+    	buffer.append("<low>" + this.getLow() + "</low>\n");
+    	buffer.append("<high>" + this.getHigh() + "</high>\n");
+    	buffer.append("<close>" + this.getClose() + "</close>\n");
+    	buffer.append("<adjclose>" + this.getAdjClose() + "</adjclose>\n");
+    	buffer.append("<open>" + this.getOpen() + "</open>\n");
+    	buffer.append("<volume>" + this.getVolume() + "</volume>\n");
+    	buffer.append("<date>" + this.printDate() + "</date>\n");
+    
+    	if (finished){
+    		buffer.append("</yahootradequote>\n");
+    	}
+    	return buffer.toString();
+    }
+    
+}

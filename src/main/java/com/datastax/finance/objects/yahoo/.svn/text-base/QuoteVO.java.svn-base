@@ -1,0 +1,51 @@
+package com.oak.tradesystem.objects.yahoo;
+
+import java.util.Date;
+
+public class QuoteVO {
+
+	private long id;
+	private long tickerId;
+	private Date time;
+	private double price;
+	private double volume;
+	private double volumeChange;
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public long getTickerId() {
+		return tickerId;
+	}
+	public void setTickerId(long tickerId) {
+		this.tickerId = tickerId;
+	}
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public double getVolume() {
+		return volume;
+	}
+	public void setVolume(double volume) {
+		this.volume = volume;
+	}
+	public double getVolumeChange() {
+		return volumeChange;
+	}
+	public void setVolumeChange(double volumeChange) {
+		this.volumeChange = volumeChange;
+	}
+	
+}

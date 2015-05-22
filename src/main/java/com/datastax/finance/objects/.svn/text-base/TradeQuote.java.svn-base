@@ -1,0 +1,134 @@
+package com.oak.tradesystem.objects;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+/**
+ * TradeQuote Object which represents a trade
+ */
+public class TradeQuote implements java.io.Serializable{
+
+	private String name;
+	private Double price;
+	private Calendar calendar;
+	private Double change;
+	private Double todaysStart;
+	private Double daysMax;
+	private Double daysMin;
+	private Long volume;
+	
+	/**
+	 * Sets the Calendar object with a date
+	 * @param date
+	 */
+	public void setCalendar(Date date){
+		this.calendar = GregorianCalendar.getInstance();
+		calendar.setTime(date);
+	}
+	
+	/**
+	 * @return Returns the calendar.
+	 */
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	/**
+	 * @param calendar The calendar to set.
+	 */
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
+	/**
+	 * @return Returns the change.
+	 */
+	public Double getChange() {
+		return change;
+	}
+	/**
+	 * @param change The change to set.
+	 */
+	public void setChange(Double change) {
+		this.change = change;
+	}
+	/**
+	 * @return Returns the daysMax.
+	 */
+	public Double getDaysMax() {
+		return daysMax;
+	}
+	/**
+	 * @param daysMax The daysMax to set.
+	 */
+	public void setDaysMax(Double daysMax) {
+		this.daysMax = daysMax;
+	}
+	/**
+	 * @return Returns the daysMin.
+	 */
+	public Double getDaysMin() {
+		return daysMin;
+	}
+	/**
+	 * @param daysMin The daysMin to set.
+	 */
+	public void setDaysMin(Double daysMin) {
+		this.daysMin = daysMin;
+	}
+	/**
+	 * @return Returns the name.
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name The name to set.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return Returns the price.
+	 */
+	public Double getPrice() {
+		return price;
+	}
+	/**
+	 * @param price The price to set.
+	 */
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	/**
+	 * @return Returns the todaysStart.
+	 */
+	public Double getTodaysStart() {
+		return todaysStart;
+	}
+	/**
+	 * @param todaysStart The todaysStart to set.
+	 */
+	public void setTodaysStart(Double todaysStart) {
+		this.todaysStart = todaysStart;
+	}
+	/**
+	 * @return Returns the volume.
+	 */
+	public Long getVolume() {
+		return volume;
+	}
+	/**
+	 * @param volume The volume to set.
+	 */
+	public void setVolume(Long volume) {
+		this.volume = volume;
+	}
+}
+
+
+
+
+
+
+
+

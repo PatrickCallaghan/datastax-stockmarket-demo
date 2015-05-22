@@ -1,0 +1,85 @@
+package com.oak.tradesystem.objects;
+
+public class StockAnalysisVO {
+
+	public static final int ANALYSIS_TYPE_TRENDING_UP_3_DAY = 0;
+	public static final int ANALYSIS_TYPE_TRENDING_UP_5_DAY = 1;
+	public static final int ANALYSIS_TYPE_TRENDING_UP_MONTH = 2;
+	
+	public static final int ANALYSIS_TYPE_YEAR_LOW = 3;
+	public static final int ANALYSIS_TYPE_MONTH_LOW = 4;
+
+	public static final int ANALYSIS_TYPE_YEAR_HIGH = 5;
+	public static final int ANALYSIS_TYPE_MONTH_HIGH = 6;
+	
+	private int id;
+	private int tickerId;
+	private int type;
+	private double value;
+	
+	public StockAnalysisVO(){
+	}
+
+	public StockAnalysisVO(int tickerId, int type, double value){
+		this.tickerId = tickerId;
+		this.type = type;
+		this.value = value;
+	}
+	
+	public StockAnalysisVO(int tickerId, int type){
+		this(tickerId, type, 0);
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getTickerId() {
+		return tickerId;
+	}
+
+	public void setTickerId(int tickerId) {
+		this.tickerId = tickerId;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+	
+	public String getAnalysisType(int inType){
+		
+		if (inType == ANALYSIS_TYPE_TRENDING_UP_3_DAY){
+			return "Trending up over 3 days";
+		}else if (inType == ANALYSIS_TYPE_TRENDING_UP_5_DAY){
+			return "Trending up over 1 week";
+		}else if (inType == ANALYSIS_TYPE_TRENDING_UP_MONTH){
+			return "Trending up over the month";
+		}else if (inType == ANALYSIS_TYPE_YEAR_LOW){
+			return "Year low";
+		}else if (inType == ANALYSIS_TYPE_MONTH_LOW){
+			return "Month low";
+		}else if (inType == ANALYSIS_TYPE_YEAR_HIGH){
+			return "Year high";
+		}else if (inType == ANALYSIS_TYPE_MONTH_HIGH){
+			return "Month high";
+		}else{
+			return "Invalid analysis type";
+		}
+	}	
+}

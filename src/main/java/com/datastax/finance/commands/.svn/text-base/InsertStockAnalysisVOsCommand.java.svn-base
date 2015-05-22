@@ -1,0 +1,44 @@
+package com.oak.tradesystem.commands;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.StockAnalysisVO;
+import com.oak.utils.DatabaseUtil;
+
+public class InsertStockAnalysisVOsCommand implements Command {
+
+	private List<StockAnalysisVO> stockAnalysisVOs = new ArrayList<StockAnalysisVO>();
+	private Properties properties;
+	
+	
+	public void setStockAnalysisVOs(List<StockAnalysisVO> stockAnalysisVOs) {
+		this.stockAnalysisVOs = stockAnalysisVOs;
+	}
+
+	public InsertStockAnalysisVOsCommand(Properties properties){
+		this.properties = properties;
+	}
+
+	public void execute(){
+		try {
+	    	DatabaseUtil db = new DatabaseUtil();
+	    	Connection connection = db.getMYSQLConnection(properties);
+	    	long time1 = System.currentTimeMillis();
+	    	
+	    	db.insertStockAnalysis(connection, properties, stockAnalysisVOs);
+	    	
+	    	long time2 = System.currentTimeMillis();
+	    	
+	    	System.out.println("Created " + stockAnalysisVOs.size() + " new analysis rows in " + (time2-time1) + "ms.");
+	    	
+	    	connection.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

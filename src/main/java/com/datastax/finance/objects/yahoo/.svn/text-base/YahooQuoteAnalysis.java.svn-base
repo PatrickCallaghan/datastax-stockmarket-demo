@@ -1,0 +1,93 @@
+package com.oak.tradesystem.objects.yahoo;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.oak.tradesystem.commands.XMLable;
+import com.oak.tradesystem.objects.TAMap;
+
+public class YahooQuoteAnalysis extends YahooTradeQuote implements XMLable {
+
+	/*
+	 *                   100
+    RSI = 100 - --------
+                 1 + RS
+
+    RS = Average Gain / Average Loss
+
+    Average Gain = [(previous Average Gain) x 13 + current Gain] / 14
+    First Average Gain = Total of Gains during past 14 periods / 14
+
+    Average Loss = [(previous Average Loss) x 13 + current Loss] / 14
+    First Average Loss = Total of Losses during past 14 periods / 14 
+	 */
+	
+	public static DecimalFormat formatter = new DecimalFormat("#.##");
+	
+	public static final String MA20 = "ma20";
+	public static final String MA50 = "ma50";
+	public static final String MA100 = "ma100";
+	public static final String MACD12 = "macd12";
+	public static final String MACD26 = "macd26";
+	public static final String MACD = "macd";
+	public static final String MACD_DIFF = "macddiff";
+	public static final String EMA9_MACD = "ema9macd";
+	public static final String RSI = "rsi";
+	
+	public YahooQuoteAnalysis(YahooTradeQuote quote){
+		this.adjClose = quote.getAdjClose();
+		this.close = quote.getClose();
+		this.date = quote.getDate();
+		this.high = quote.getHigh();
+		this.low = quote.getLow();
+		this.name = quote.getName();
+		this.open = quote.getOpen();
+		this.volume = quote.getVolume();
+	}
+	
+	
+	private double rsi;
+	private List<TAMap> taMap = new ArrayList<TAMap>();
+	
+	public double getRsi() {
+		return rsi;
+	}
+	public void setRsi(double rsi) {
+		this.rsi = rsi;
+	}
+	
+	public void addToTAMap(String name, double value){
+		taMap.add(new TAMap(name, value));
+	}
+	
+	public List<TAMap> getTaMap() {
+		return taMap;
+	}
+	public void setTaMap(List<TAMap> taMap) {
+		this.taMap = taMap;
+	}
+	
+	public String getXML(){
+    	StringBuffer buffer = new StringBuffer();
+    	
+    	buffer.append("<technicalanalysis>\n");
+    	
+    	buffer.append(super.getXML(false));
+    	
+    	for (TAMap ta : taMap){
+    		String name = ta.getTaName();
+    		double value = ta.getTaValue();
+    		
+    		buffer.append("<"+ name + ">");
+    		buffer.append(formatter.format(value));
+    		buffer.append("</"+ name + ">\n");
+    	}
+    	
+    	buffer.append("</technicalanalysis>\n");
+    	return buffer.toString();		
+		
+	}
+	
+}
+

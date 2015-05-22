@@ -1,0 +1,198 @@
+  package com.oak.tradesystem.commands;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.oak.tradesystem.objects.yahoo.YahooQuoteAnalysis;
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.tradesystem.technalysis.TechnicalAnalysis;
+import com.oak.tradesystem.test.TradeProcessor;
+import com.oak.utils.Utilities;
+
+public class GetQuotesReportCommand implements Command{
+	
+	private static final String SMA = "SMA";
+	private static final String EMA = "EMA";
+	private static final String GMA = "GMA";
+	private static final String LMA = "LMA";
+	private static final String RSI = "RSI";
+	private static final String MFI = "MFI";
+	private static final String MPT = "MPT";
+	private static final String BOP = "BOP";
+	
+	private String name;
+	private String report;
+	private int lengthOfTime;
+	private String[] taArray;
+	private String returnType;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTaArray(String[] taArray) {
+		this.taArray = taArray;
+	}
+
+	public void setReturnType(String returnType) {
+		this.returnType = returnType;
+	}
+
+	public void setLengthOfTime(int lengthOfTime){
+		this.lengthOfTime = lengthOfTime;
+	}
+
+	public void execute(){
+		TradeProcessor processor = new TradeProcessor(null);
+		Object[] quotes = processor.getStockQuotes(name, "", "");
+		
+		Map taMap = new HashMap();
+		
+		//create the lows, highs and closes
+		double opens[] = new double[quotes.length];
+        double closes[] = new double[quotes.length];
+        double lows[] = new double[quotes.length];
+        double highs[] = new double[quotes.length];
+        double volumes[] = new double[quotes.length];
+        
+        List<YahooQuoteAnalysis> analysisList = new ArrayList<YahooQuoteAnalysis>();
+        
+        for (int i=0; i<quotes.length; i++){
+        	YahooTradeQuote quote = (YahooTradeQuote)quotes[i];
+        	
+        	opens[i] = quote.getOpen();
+        	closes[i] = quote.getClose();
+        	lows[i] = quote.getLow();
+        	highs[i] = quote.getHigh();
+        	volumes[i] = quote.getVolume();
+        	
+        	YahooQuoteAnalysis analysis = new YahooQuoteAnalysis(quote);
+        	analysisList.add(analysis);
+        }
+
+        for(int i = 0; i < taArray.length; i++){
+        	
+        	if (taArray[i].startsWith(SMA)){
+        		int ma = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] mas = TechnicalAnalysis.simpleMovingAverage(closes, ma);
+        		
+        		taMap.put(taArray[i], mas);
+        		
+        	}else if (taArray[i].startsWith(EMA)){
+        		int ma = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] mas = TechnicalAnalysis.exponentiallyWeightedMovingAverage(closes, ma);
+        		
+        		taMap.put(taArray[i], mas);
+        		
+        	}else if (taArray[i].startsWith(GMA)){
+        		int ma = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] mas = TechnicalAnalysis.simpleMovingAverage(closes, ma);
+        		
+        		taMap.put(taArray[i], mas);
+        		
+        	}else if (taArray[i].startsWith(LMA)){
+        		int ma = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] mas = TechnicalAnalysis.simpleMovingAverage(closes, ma);
+        		
+        		taMap.put(taArray[i], mas);
+        		
+        	}else if (taArray[i].startsWith(RSI)){
+        		int noOfPeriods = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] result = TechnicalAnalysis.getRSI(closes, noOfPeriods);
+        		
+        		taMap.put(taArray[i], result);
+        		
+        	}else if (taArray[i].startsWith(MPT)){
+        		int noOfDays = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] result = TechnicalAnalysis.getMomentumPct(closes, noOfDays);
+        		
+        		taMap.put(taArray[i], result);
+        		
+        	}else if (taArray[i].startsWith(MFI)){
+        		
+        		int lengthOfPeriod = Integer.parseInt(taArray[i].substring(3));
+        		
+        		double[] result = TechnicalAnalysis.getMoneyFlowIndex(highs, lows, closes, volumes, lengthOfPeriod);
+        		
+        		taMap.put(taArray[i], result);
+        		
+        	}else if (taArray[i].startsWith(BOP)){
+        		 
+        		double[] result = TechnicalAnalysis.getBalanceOfPower(opens, closes, highs, lows);
+        		
+        		taMap.put(taArray[i], result);
+        	}
+        }
+        
+        
+    	//Convert to a Analysis object and populated with Moving averages
+        for (int i=0; i<analysisList.size(); i++){
+        
+        	YahooQuoteAnalysis analysis = (YahooQuoteAnalysis)analysisList.get(i);
+        	
+        	for (Object key : taMap.keySet()) {
+        		
+        		double[] values = (double[])taMap.get(key);
+        	
+        		if (i < values.length){
+        			analysis.addToTAMap((String)key, values[i]);
+        		}
+        	}
+        }
+    	
+ 		report = Utilities.convertListToXML("quotes", analysisList, this.lengthOfTime);
+	}
+	
+	
+	 
+	private double[] getMacd(double[] fast, double[] slow) {
+		
+		double[] macd = new double[slow.length];
+		
+		for (int i=0; i < slow.length; i++){
+			macd[i] = fast[i] - slow[i];
+		}
+	
+		return macd;
+	}
+
+	public String getReport(){
+		return report;
+	}
+	
+	public static void main (String args[]){
+		
+		long start = System.currentTimeMillis();
+		
+		String taString = "SMA50-SMA100-EMA22-LMA40-GMA15-RSI14-MFI20-BOP-MPT20";
+		
+		String[] taArray = taString.split("-");		
+		
+		GetQuotesReportCommand command = new GetQuotesReportCommand();
+		command.setName("AAPL");
+		command.setLengthOfTime(100);
+		command.setTaArray(taArray);
+		command.execute();          
+		
+		try {
+			Utilities.writeStringToFile(command.getReport(), "//Users//patrick//Documents//workspace//FlexTest//src//Testdata.xml", false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		long end = System.currentTimeMillis();
+		
+		System.out.println("Completed in " + (end-start) + "ms.");
+		
+	}
+}

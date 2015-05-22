@@ -1,0 +1,91 @@
+package com.oak.tradesystem.objects;
+
+public class StockAnalysis implements java.io.Serializable {
+
+	private String ticker;
+	private String name;
+	private String chart;
+	private String verdict;
+	private String analysis;
+	private TradeQuote quote;
+	
+	public static String VERDICT_HOLD = "hold";
+	public static String VERDICT_BUY = "buy";
+	public static String VERDICT_SELL= "sell";
+	public static String VERDICT_NONE = "none";
+	
+	public static String GOOGLE_CHART_APPEND = ":LON";
+	public static String YAHOO_CHART_APPEND = ".L";	
+	
+	public StockAnalysis(String ticker, String name, String chart, String verdict, String analysis) {
+		super();
+		this.ticker = ticker;
+		this.name = name;
+		this.chart = chart;
+		this.verdict = verdict;
+		this.analysis = analysis;
+	}
+	
+	public String getAnalysis() {
+		return analysis;
+	}
+	public void setAnalysis(String analysis) {
+		this.analysis = analysis;
+	}
+	public String getChart() {
+		return chart;
+	}
+	public void setChart(String chart) {
+		this.chart = chart;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTicker() {
+		return ticker;
+	}
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+	public String getVerdict() {
+		return verdict;
+	}
+	public void setVerdict(String verdict) {
+		this.verdict = verdict;
+	}
+	public String getGoogleTicker() {
+		return ticker + this.GOOGLE_CHART_APPEND;
+	}
+	public String getYahooTicker() {
+		return ticker + this.YAHOO_CHART_APPEND;
+	}
+
+	public String toString (){
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append(this.ticker);
+		buffer.append(", ");
+		buffer.append(this.name);
+		buffer.append(", ");
+		buffer.append(this.chart);
+		buffer.append(", ");
+		buffer.append(this.verdict);
+		buffer.append(", ");
+		buffer.append(this.analysis);
+		
+		return buffer.toString();
+	}
+
+	public TradeQuote getQuote() {
+		return quote;
+	}
+
+	public void setQuote(TradeQuote quote) {
+		this.quote = quote;
+	}
+	
+	
+}

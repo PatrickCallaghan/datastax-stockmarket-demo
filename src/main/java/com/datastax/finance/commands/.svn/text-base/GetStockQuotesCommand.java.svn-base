@@ -1,0 +1,45 @@
+package com.oak.tradesystem.commands;
+
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.tradesystem.test.TradeProcessor;
+
+public class GetStockQuotesCommand implements Command{
+	
+	private String name;
+	private int length;
+	private double closes[];
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setLength(int length) {
+		this.length = length;
+	}
+	
+	public double[] getCloses() {
+		return closes;
+	}
+
+	public void execute(){
+		TradeProcessor processor = new TradeProcessor(null);
+		Object[] quotes = processor.getStockQuotes(name, "", "");
+		        
+        if (length > quotes.length)
+        	length = quotes.length;
+        
+        closes = new double[length];
+        
+        for (int i=0; i < length; i++){
+        	YahooTradeQuote quote = (YahooTradeQuote)quotes[i];
+        	
+        	closes[i] = quote.getClose();
+        }
+	}
+	 	
+	public static void main (String args[]){
+		
+
+		
+	}
+}

@@ -1,0 +1,43 @@
+package com.oak.tradesystem.objects;
+
+import java.util.List;
+
+public class IndexPriceList {
+
+	private String name;
+	private List prices;
+	
+	public IndexPriceList (String name, List prices){
+		this.name = name;
+		this.prices = prices;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List getPrices() {
+		return prices;
+	}
+
+	public void setPrices(List prices) {
+		this.prices = prices;
+	}
+	
+	public String toString(){
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(name + "\n");
+		
+		for (int i = 0; i < prices.size(); i++){
+			Double d = (Double)prices.get(i);
+			buffer.append(d + "\n");
+		}
+			
+		return buffer.toString();
+	}
+}

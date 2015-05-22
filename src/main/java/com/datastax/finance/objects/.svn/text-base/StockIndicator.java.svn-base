@@ -1,0 +1,60 @@
+package com.oak.tradesystem.objects;
+
+public class StockIndicator {
+
+	public static final String BUY = "B";
+	public static final String SELL = "S";
+	
+	private long id;
+	private String companyName;
+	private String index;
+	private String buySellIndicator;
+	private String indicatorType;
+	private double currentPrice;
+	private long date;	
+	
+	public String getBuySellIndicator() {
+		return buySellIndicator;
+	}
+	public void setBuySellIndicator(String buySellIndicator) {
+		this.buySellIndicator = buySellIndicator;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public double getCurrentPrice() {
+		return currentPrice;
+	}
+	public void setCurrentPrice(double currentPrice) {
+		this.currentPrice = currentPrice;
+	}
+	public long getDate() {
+		return date;
+	}
+	public void setDate(long date) {
+		this.date = date;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getIndex() {
+		return index;
+	}
+	public void setIndex(String index) {
+		this.index = index;
+	}
+	public String getIndicatorType() {
+		return indicatorType;
+	}
+	public void setIndicatorType(String indicatorType) {
+		this.indicatorType = indicatorType;
+	}
+	
+	
+}

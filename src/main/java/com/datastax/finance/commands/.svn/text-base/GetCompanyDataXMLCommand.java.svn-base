@@ -1,0 +1,48 @@
+package com.oak.tradesystem.commands;
+
+import java.io.IOException;
+
+import com.oak.tradesystem.objects.yahoo.CompanyData;
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.tradesystem.test.TradeProcessor;
+import com.oak.utils.Utilities;
+
+public class GetCompanyDataXMLCommand implements Command, XMLable {
+
+	private String name;
+	private String xml;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void execute() {
+		TradeProcessor processor = new TradeProcessor(null);
+		CompanyData data = processor.getCompanyData(name);
+
+		xml = Utilities.convertObjectToXML("companydata", (XMLable) data);
+	}
+
+	public String getXML() {
+		return xml;
+	}
+
+	public static void main(String args[]) {
+
+		GetCompanyDataXMLCommand command = new GetCompanyDataXMLCommand();
+		command.setName("AAPL");
+		command.execute();
+		System.out.println(command.getXML());
+
+		try {
+			Utilities
+					.writeStringToFile(
+							command.getXML(),
+							"//Users//patrick//Documents//workspace//FlexTest//src//AppleCompanyData.xml",
+							false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

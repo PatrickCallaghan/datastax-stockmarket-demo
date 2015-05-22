@@ -1,0 +1,180 @@
+package com.oak.tradesystem.objects;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class Trade implements java.io.Serializable{
+
+	private String[] commodities = new String[]{"GOLD"};
+	private String[] indices = new String[]{"FTSE", "DJIA", "NASDAQ","S+P"};
+	
+	private List commoditiesList;
+	private List indicesList;
+	
+	private long id;
+	private String instrument; //FTSE, SUNW, USDGBP etc
+	private String type; //Either B or S
+	private Long dateTime;
+	private Double price; //eg 6540.24 
+	private Double target; // eg 6700	
+	private Double stoploss;
+	private Double closePrice;
+	private String status;
+	private Long exitDate;
+	
+	public Trade(){
+		
+		commoditiesList = new ArrayList();
+		
+		for (int i =0; i<commodities.length; i++){
+			commoditiesList.add(commodities[i]);
+		}
+		
+		indicesList = new ArrayList();
+		
+		for (int i =0; i<indices.length; i++){
+			indicesList.add(indices[i]);
+		}
+		 closePrice = new Double(0);
+		 stoploss = new Double(0);
+		 price = new Double(0);
+		 target = new Double(0);
+		 
+	}
+
+	public boolean isStock(){
+		if (commoditiesList.contains(this.type) || indicesList.contains(this.type)){
+			return false;
+		}else
+			return true;
+	}
+	public boolean isIndex(){
+		if (indicesList.contains(this.type)){
+			return true;
+		}else
+			return false;		
+	}
+	public boolean isCommodity(){
+		if (commoditiesList.contains(this.type)){
+			return true;
+		}else
+			return false;		
+	}
+	
+	public long getExitDate() {
+		return exitDate.longValue();
+	}
+	public void setExitDate(long exitDate) {
+		this.exitDate = new Long(exitDate);
+	}
+	
+	public String getExitDateStr(){
+		
+		if (this.exitDate == null)
+			return "";
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(this.exitDate);
+		
+		String date = cal.get(Calendar.DAY_OF_MONTH) + "-" + (cal.get(Calendar.MONTH)+1) + "-"  + cal.get(Calendar.YEAR);
+		
+		return date;
+	}
+
+	
+	public long getDateTime() {
+		return dateTime.longValue();
+	}
+	public void setDateTime(long dateTime) {
+		this.dateTime = new Long(dateTime);
+	}
+	
+	public String getDateTimeStr(){
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(this.dateTime);
+		
+		String date = cal.get(Calendar.DAY_OF_MONTH) + "-" + (cal.get(Calendar.MONTH)+1) + "-"  + cal.get(Calendar.YEAR);
+		return date;
+	}
+	
+	public String getInstrument() {
+		return instrument;
+	}
+	public void setInstrument(String instrument) {
+		this.instrument = instrument;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public Double getTarget() {
+		return target;
+	}
+	public void setTarget(Double target) {
+		this.target = target;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Double getStoploss() {
+		return stoploss;
+	}
+	public void setStoploss(Double stoploss) {
+		this.stoploss = stoploss;
+	}
+	public void setDateTime(Long dateTime) {
+		this.dateTime = dateTime;
+	}
+	
+	public Double getClosePrice() {
+		return closePrice;
+	}
+	public void setClosePrice(Double closePrice) {
+		this.closePrice = closePrice;
+	}
+	public String toCSVString(){
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append(this.id);
+		buffer.append(",");
+		buffer.append(this.instrument);
+		buffer.append(",");
+		buffer.append(this.type);
+		buffer.append(",");
+		buffer.append(this.dateTime);
+		buffer.append(",");
+		buffer.append(this.price);
+		buffer.append(",");
+		buffer.append(this.target);
+		buffer.append(",");
+		buffer.append(this.stoploss);
+		buffer.append(",");
+		buffer.append(this.closePrice);
+		buffer.append(",");
+		buffer.append(this.status);
+		buffer.append(",");
+		buffer.append(this.closePrice);
+		
+		return buffer.toString();		
+	}	
+}

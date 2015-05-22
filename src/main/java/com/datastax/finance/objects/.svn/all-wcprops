@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects
+END
+Quote.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/OakIt-TradeSystem/!svn/ver/9/TradeSystem/src/com/oak/tradesystem/objects/Quote.java
+END
+Position.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/Position.java
+END
+StockMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/StockMap.java
+END
+IndexPriceList.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/IndexPriceList.java
+END
+StockAnalysis.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/StockAnalysis.java
+END
+CorrelationCoefficient.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/CorrelationCoefficient.java
+END
+StockAnalysisVO.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/StockAnalysisVO.java
+END
+Analysis.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/Analysis.java
+END
+Trade.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/Trade.java
+END
+TradeQuote.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/TradeQuote.java
+END
+StockPick.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/StockPick.java
+END
+TAMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/TAMap.java
+END
+TradeAnalysisObject.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/TradeAnalysisObject.java
+END
+StockIndicator.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/OakIt-TradeSystem/!svn/ver/2/TradeSystem/src/com/oak/tradesystem/objects/StockIndicator.java
+END

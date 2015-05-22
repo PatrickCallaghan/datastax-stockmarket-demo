@@ -1,0 +1,379 @@
+//(c) 2005, eSpeed Limited
+package com.oak.tradesystem.objects;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 
+ * @author pcallaghan
+ */
+public class TradeAnalysisObject implements Comparable, java.io.Serializable {
+
+    public static String LT_BULLISH = "Long term Bullish";
+    public static String LT_BEARISH = "Long term Bearish";
+
+    public static String MT_BULLISH = "Medium term Bullish";
+    public static String MT_BEARISH = "Medium term Bearish";
+
+    public static String ST_BULLISH = "Short term Bullish";
+    public static String ST_BEARISH = "Short term Bearish";
+    
+    public static String NO_TREND = "No Definite Trend";
+    
+    private static NumberFormat percentFormat =DecimalFormat.getPercentInstance();
+    
+    private List taMap = new ArrayList();
+    private List analysis = new ArrayList();
+    
+    protected String market;
+    protected Date date;
+    protected String name;
+        
+    protected double price;    
+    protected double lastWeek;    
+    protected double lastMonth;
+    protected double last3Month;
+    protected double last6Month;
+    protected double lastYear;
+    protected double last2Year;
+    
+    protected double lowest;
+    protected double highest;
+
+    protected String link;
+    protected String trend;
+          
+    /**
+     * 
+     */
+    public TradeAnalysisObject() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @return Returns the highest.
+     */
+    public double getHighest() {
+        return highest;
+    }
+    /**
+     * @param highest The highest to set.
+     */
+    public void setHighest(double highest) {
+        this.highest = highest;
+    }
+    /**
+     * @return Returns the lowest.
+     */
+    public double getLowest() {
+        return lowest;
+    }
+    /**
+     * @param lowest The lowest to set.
+     */
+    public void setLowest(double lowest) {
+        this.lowest = lowest;
+    }
+    
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name The name to set.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    /**
+     * @return Returns the date.
+     */
+    public Date getDate() {
+        return date;
+    }
+    /**
+     * @param date The date to set.
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    /**
+     * @return Returns the last2Year.
+     */
+    public double getLast2Year() {
+        return last2Year;
+    }
+    /**
+     * @param last2Year The last2Year to set.
+     */
+    public void setLast2Year(double last2Year) {
+        this.last2Year = last2Year;
+    }
+    /**
+     * @return Returns the last3Month.
+     */
+    public double getLast3Month() {
+        return last3Month;
+    }
+    /**
+     * @param last3Month The last3Month to set.
+     */
+    public void setLast3Month(double last3Month) {
+        this.last3Month = last3Month;
+    }
+    /**
+     * @return Returns the last6Month.
+     */
+    public double getLast6Month() {
+        return last6Month;
+    }
+    /**
+     * @param last6Month The last6Month to set.
+     */
+    public void setLast6Month(double last6Month) {
+        this.last6Month = last6Month;
+    }
+    /**
+     * @return Returns the lastMonth.
+     */
+    public double getLastMonth() {
+        return lastMonth;
+    }
+    /**
+     * @param lastMonth The lastMonth to set.
+     */
+    public void setLastMonth(double lastMonth) {
+        this.lastMonth = lastMonth;
+    }
+    /**
+     * @return Returns the lastWeek.
+     */
+    public double getLastWeek() {
+        return lastWeek;
+    }
+    /**
+     * @param lastWeek The lastWeek to set.
+     */
+    public void setLastWeek(double lastWeek) {
+        this.lastWeek = lastWeek;
+    }
+    /**
+     * @return Returns the lastYear.
+     */
+    public double getLastYear() {
+        return lastYear;
+    }
+    /**
+     * @param lastYear The lastYear to set.
+     */
+    public void setLastYear(double lastYear) {
+        this.lastYear = lastYear;
+    }
+    /**
+     * @return Returns the link.
+     */
+    public String getLink() {
+        
+        return link = "http://uk.finance.yahoo.com/q?s=" + name;
+    }
+    /**
+     * @return Returns the price.
+     */
+    public double getPrice() {
+        return price;
+    }
+    /**
+     * @param price The price to set.
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    /**
+     * @return Returns the market.
+     */
+    public String getMarket() {
+        return market;
+    }
+    /**
+     * @param market The market to set.
+     */
+    public void setMarket(String market) {
+        this.market = market;
+    }
+    
+    /**
+     * @return Returns the trend.
+     */
+    public String getTrend() {
+        setTrend();
+        return trend;
+    }
+    
+    public void setTrend() {
+        
+        if (this.price >= this.lastWeek && 
+            this.lastWeek >= this.lastMonth && 
+            this.lastMonth >= this.last3Month && 
+            this.last3Month >= this.last6Month && 
+            this.last6Month >= this.lastYear && 
+            this.lastYear >= this.last2Year){
+            
+            this.trend = LT_BULLISH;
+            
+        }else if (this.price <= this.lastWeek && 
+            this.lastWeek <= this.lastMonth && 
+            this.lastMonth <= this.last3Month && 
+            this.last3Month <= this.last6Month && 
+            this.last6Month <= this.lastYear && 
+            this.lastYear <= this.last2Year){
+                
+            this.trend = LT_BEARISH;
+            
+        }else if (this.price >= this.lastWeek && 
+            this.lastWeek >= this.lastMonth && 
+            this.lastMonth >= this.last3Month && 
+            this.last3Month >= this.last6Month){
+            
+            this.trend = MT_BULLISH;
+            
+        }else if (this.price <= this.lastWeek && 
+            this.lastWeek <= this.lastMonth && 
+            this.lastMonth <= this.last3Month && 
+            this.last3Month <= this.last6Month){
+                
+            this.trend = MT_BEARISH;
+        }else if (this.price >= this.lastWeek && 
+            this.lastWeek >= this.lastMonth){
+            
+            this.trend = ST_BULLISH;
+            
+        }else if (this.price <= this.lastWeek && 
+            this.lastWeek <= this.lastMonth){
+                
+            this.trend = ST_BEARISH;
+        }else
+            this.trend = NO_TREND;
+    }
+   
+    public void addToTAMap(String name, double value){
+    	taMap.add(new TAMap(name, value));
+    }
+    
+    public List getTAMap(){
+    	return this.taMap;
+    }
+
+	public List getAnalysis() {
+		return analysis;
+	}
+
+	public void setAnalysis(List analysis) {
+		this.analysis = analysis;
+	}
+	
+    public int compareTo(Object object){
+    	
+    	TradeAnalysisObject analysisObject = (TradeAnalysisObject)object; 
+    	    	
+    	if (this.getTrend().equals(LT_BULLISH) && !analysisObject.getTrend().equals(LT_BULLISH))
+    		return 100;
+    	if (this.getTrend().equals(MT_BULLISH) && !analysisObject.getTrend().equals(LT_BULLISH)  && !analysisObject.getTrend().equals(MT_BULLISH))
+    		return 75;
+    	if (this.getTrend().equals(ST_BULLISH)  && !analysisObject.getTrend().equals(LT_BULLISH) && !analysisObject.getTrend().equals(MT_BULLISH) && !analysisObject.getTrend().equals(ST_BULLISH))
+    		return 50;
+    	if (this.getTrend().equals(ST_BEARISH) && !analysisObject.getTrend().equals(ST_BEARISH) && !analysisObject.getTrend().equals(MT_BEARISH) && !analysisObject.getTrend().equals(LT_BEARISH))
+    		return -50;
+    	if (this.getTrend().equals(MT_BEARISH) && !analysisObject.getTrend().equals(MT_BEARISH) && !analysisObject.getTrend().equals(LT_BEARISH))
+    		return -75;
+    	if (this.getTrend().equals(LT_BEARISH) && !analysisObject.getTrend().equals(LT_BEARISH))
+    		return -100;
+    	
+    	return 0; 
+    }
+    
+    public static String getPercentString(double first, double second){        
+        String percentString = "";
+        double percent = new Double((new Double(first-second).doubleValue()/second)).doubleValue();
+                
+        return percentFormat.format(percent);
+    }    
+    
+    
+    
+    public String toString(){        
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append("Market : " + market);
+        buffer.append(" Name : " + name);
+        buffer.append(" Price : " + price);
+        buffer.append(" Last Week : " + this.lastWeek + " " + getPercentString(price, lastWeek));
+        buffer.append(" Last Month : " + this.lastMonth + " " + getPercentString(price, lastMonth));
+        buffer.append(" Last 3 Month : " + this.last3Month + " " + getPercentString(price, last3Month));
+        buffer.append(" Last 6 Month : " + this.last6Month + " " + getPercentString(price, last6Month));        
+        buffer.append(" Last Year : " + this.lastYear + " " + getPercentString(price, lastYear));        
+        buffer.append(" Last 2 Year : " + this.last2Year + " " + getPercentString(price, last2Year));                
+                
+        buffer.append(" Lowest : " + this.lowest);
+        buffer.append(" Highest : " + this.highest);
+        buffer.append(" Trend : " + getTrend());
+        buffer.append(" Link : " + getLink());
+        
+        return buffer.toString();       
+    }
+
+    public String toCSVString(){
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append(market + ",");
+        buffer.append(name + ",");
+        buffer.append(price + ",");
+        buffer.append(this.lastWeek + "," + getPercentString(price, lastWeek) + ",");
+        buffer.append(this.lastMonth + "," + getPercentString(price, lastMonth) + ",");
+        buffer.append(this.last3Month + "," + getPercentString(price, last3Month) + ",");
+        buffer.append(this.last6Month + "," + getPercentString(price, last6Month) + ",");        
+        buffer.append(this.lastYear + "," + getPercentString(price, lastYear) + ",");        
+        buffer.append(this.last2Year + "," + getPercentString(price, last2Year) + ",");                               
+        buffer.append(this.lowest + ",");
+        buffer.append(this.highest + ",");
+        
+        for(int i=0; i < taMap.size(); i++){
+        	TAMap ta = (TAMap)taMap.get(i);
+        	buffer.append(ta.toString());
+        	
+        	if (i != taMap.size()-1){
+        		buffer.append(",");
+        	}
+        }
+        
+        return buffer.toString();       
+    }
+    
+    public String toHTMLTableRow(){
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append("<TR font size=-1><TD>" + market + "</TD>");
+        buffer.append("<TD>" + name + "</TD>");
+        buffer.append("<TD>" + price + "</TD>");
+        buffer.append("<TD>" + lastWeek + "</TD>" + "<TD>" + getPercentString(price, lastWeek) + "</TD>");
+        buffer.append("<TD>" + lastMonth + "</TD>" + "<TD>" + getPercentString(price, lastMonth) + "</TD>");
+        buffer.append("<TD>" + last3Month + "</TD>" + "<TD>" + getPercentString(price, last3Month) + "</TD>");        
+        buffer.append("<TD>" + last6Month + "</TD>" + "<TD>" + getPercentString(price, last6Month) + "</TD>");
+        buffer.append("<TD>" + lastYear + "</TD>" + "<TD>" + getPercentString(price, lastYear) + "</TD>");        
+        buffer.append("<TD>" + last2Year + "</TD>" + "<TD>" + getPercentString(price, last2Year) + "</TD>");        
+        buffer.append("<TD>" + this.lowest + "</TD>");
+        buffer.append("<TD>" + this.highest + "</TD>");        
+        buffer.append("<TD><b>" + getTrend() + "</b></TD>");
+        buffer.append("<TD><a href='" + getLink() + "' target='_blank'>link</a></TD></TR>");        
+        
+        return buffer.toString();       
+    }
+}

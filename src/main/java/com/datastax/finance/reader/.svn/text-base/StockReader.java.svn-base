@@ -1,0 +1,204 @@
+/*
+ */
+package com.oak.tradesystem.reader;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import com.oak.tradesystem.objects.TradeQuote;
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.utils.UrlUtil;
+import com.oak.utils.Utilities;
+
+/**
+ * Reads a url and creates a List of TradeQuotes
+ */
+public class StockReader {
+
+  private String stockName;
+  private String url;
+
+  private File dir;
+  
+  private final static int DAILY_STOCK_CODE_COLUMN = 0;
+  private final static int DAILY_CURRENT_PRICE_COLUMN = 1;
+  private final static int DAILY_DATE_COLUMN = 2;
+  private final static int DAILY_TIME_COLUMN = 3;
+  private final static int DAILY_CHANGE_COLUMN = 4;
+  private final static int DAILY_DAY_START_COLUMN = 5;
+  private final static int DAILY_DAY_MAX_COLUMN = 6;
+  private final static int DAILY_DAY_MIN_COLUMN = 7;
+  private final static int DAILY_VOLUME_COLUMN = 8;
+
+  //Date		Open	High	Low	Close	Volume		Adj. Close*
+  //13-Feb-06	646		655.5	646	651.5	47044608	651.5  
+  private final static int HISTORICAL_DATE_COLUMN = 0;
+  private final static int HISTORICAL_OPEN_COLUMN = 1;
+  private final static int HISTORICAL_HIGH_COLUMN = 2;
+  private final static int HISTORICAL_LOW_COLUMN = 3;
+  private final static int HISTORICAL_CLOSE_COLUMN = 4;
+  private final static int HISTORICAL_VOLUME_COLUMN = 5;
+  private final static int HISTORICAL_ADJ_CLOSE_COLUMN = 6;
+  
+  private Date currentDate = new Date();
+  private long lastVolume = 0;
+  private double lastPrice = 0;
+
+  public StockReader(String stockName, String url){
+
+    this.stockName = stockName;
+    this.url = url;
+  }
+
+  public List getTradeQuotes() throws Exception {
+      return this.getTradeQuotes(false, "");
+  }
+  
+  public List getTradeQuotes(boolean historical, String name) throws Exception {
+      if (historical)
+          return this.getHistoricalTradeQuotes(name);
+      else
+          return this.getDailyTradeQuotes(name);
+  }
+
+  public List getDailyTradeQuotes(String name) throws Exception {
+    	try{
+    		List tradeQuotes = new ArrayList();
+    		
+    		//Get the data from the URL and write it to the file.
+    		String data;
+    		//System.out.println("Searching for " + url);
+    		
+    		if (new File(url).exists())
+    			data = Utilities.readStringFromFile(url);
+    		else
+    			data = UrlUtil.getURLData(url);
+    		
+    		if (data == null)
+    			return null;
+    		
+    		String[] linesArray = data.split("\n");
+    		
+    		for (int i = 0; i < linesArray.length; i++){
+    			
+    			data = linesArray[i];
+    			
+    			if (data == null)
+    				continue;
+    			
+    			String[] dataArray = data.split(",");  		  			  	
+    			TradeQuote tradeQuote = new TradeQuote();
+    			tradeQuote.setName(Utilities.stripQuotes(dataArray[DAILY_STOCK_CODE_COLUMN]));
+    			
+  	  		try{
+  	  			tradeQuote.setPrice(new Double(dataArray[DAILY_CURRENT_PRICE_COLUMN]));
+  	  		}catch (Exception e){}
+    			
+  	  		try{
+  	  		  tradeQuote.setChange(new Double(dataArray[DAILY_CHANGE_COLUMN]));
+  	  		}catch (Exception e){}  		
+    		
+  	  		try{
+  	  			tradeQuote.setTodaysStart(new Double(dataArray[DAILY_DAY_START_COLUMN]));
+  	  		}catch (Exception e){}
+  	  			
+  	  		try{
+  	  			tradeQuote.setDaysMax(new Double(dataArray[DAILY_DAY_MAX_COLUMN]));
+  	  		}catch (Exception e){}
+  	  		
+  	  		try{
+  	  			tradeQuote.setDaysMin(new Double(dataArray[DAILY_DAY_MIN_COLUMN]));
+  	  		}catch (Exception e){}
+  	  		
+  	  		try{
+  	  			tradeQuote.setVolume(new Long(dataArray[DAILY_VOLUME_COLUMN]));
+  	  		}catch (Exception e){}
+  	  		
+    			tradeQuote.setCalendar(GregorianCalendar.getInstance());
+    			
+    			//Not sure if I need the date and time for the moment.	  			
+    			tradeQuotes.add(tradeQuote);  			
+    		}
+
+    		return tradeQuotes;
+    		
+  	  }catch (Exception e){
+  	    System.out.println("Error : " + e.getMessage());
+  	    e.printStackTrace();	
+  	    throw e;
+  	  }
+    }
+  
+  
+  public List getHistoricalTradeQuotes(String name) throws Exception {
+  	try{
+  		List tradeQuotes = new ArrayList();
+  		
+  		//Get the data from the URL and write it to the file.
+  		String data;
+  		if (new File(url).exists())
+  			data = Utilities.readStringFromFile(url);
+  		else
+  			data = UrlUtil.getURLData(url);
+  		
+  		if (data == null)
+  		    return null;
+  		
+  		String[] linesArray = data.split("\n");
+  		
+  		for (int i = 0; i < linesArray.length; i++){
+  			
+  			data = linesArray[i];
+  			
+  			//Don't want the header details.
+  			if (data == null || i == 0)
+  				continue;
+  			
+  			String[] dataArray = data.split(",");  		  			  	
+			YahooTradeQuote tradeQuote = new YahooTradeQuote();
+  			tradeQuote.setName(name);
+  			
+	  		try{
+	  			tradeQuote.setDate(new String(dataArray[HISTORICAL_DATE_COLUMN]));
+	  		}catch (Exception e){}
+  			
+	  		try{
+	  		  tradeQuote.setOpen(new Double(dataArray[HISTORICAL_OPEN_COLUMN]).doubleValue());
+	  		}catch (Exception e){}  		
+  		
+	  		try{
+	  			tradeQuote.setHigh(new Double(dataArray[HISTORICAL_HIGH_COLUMN]).doubleValue());
+	  		}catch (Exception e){}
+	  			
+	  		try{
+	  			tradeQuote.setLow(new Double(dataArray[HISTORICAL_LOW_COLUMN]).doubleValue());
+	  		}catch (Exception e){}
+	  		
+	  		try{
+	  			tradeQuote.setClose(new Double(dataArray[HISTORICAL_CLOSE_COLUMN]).doubleValue());
+	  		}catch (Exception e){}
+	  		
+	  		try{
+	  			tradeQuote.setVolume(new Long(dataArray[HISTORICAL_VOLUME_COLUMN]).longValue());
+	  		}catch (Exception e){}
+	  		
+	  		try{
+	  			tradeQuote.setClose(new Double(dataArray[HISTORICAL_ADJ_CLOSE_COLUMN]).doubleValue());
+	  		}catch (Exception e){}
+  			
+  			//Not sure if I need the date and time for the moment.	  			
+  			tradeQuotes.add(tradeQuote);  			
+  		}
+
+  		return tradeQuotes;
+  		
+	  }catch (Exception e){
+	    System.out.println("Error : " + e.getMessage());
+	    e.printStackTrace();	
+	    throw e;
+	  }
+  }
+}

@@ -1,0 +1,41 @@
+package com.oak.tradesystem.commands;
+
+import java.io.IOException;
+
+import com.oak.tradesystem.objects.yahoo.CompanyData;
+import com.oak.tradesystem.objects.yahoo.YahooTradeQuote;
+import com.oak.tradesystem.test.TradeProcessor;
+import com.oak.utils.Utilities;
+
+public class GetRSSFeedXMLCommand implements Command, XMLable{
+	
+	private String name;
+	private String xml;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void execute(){
+ 		xml = com.oak.utils.UrlUtil.getURLData("http://finance.google.com/finance?morenews=10&rating=1&output=rss&q=" + name);
+	}
+
+	public String getXML(){
+		return xml;
+	}
+	
+	public static void main (String args[]){
+		
+		GetRSSFeedXMLCommand command = new GetRSSFeedXMLCommand();
+		command.setName("AAPL");
+		command.execute();
+		System.out.println(command.getXML());
+		
+		try {
+			Utilities.writeStringToFile(command.getXML(), "//Users//patrick//Documents//workspace//FlexTest//src//RssFeedData.xml", false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,108 @@
+package com.oak.tradesystem.objects;
+
+public class StockPick {
+
+	public static final char PENDING = 'P';
+	public static final char OPEN = 'O';
+	public static final char CLOSED = 'C';
+		
+	public static final char YAHOO = 'Y';
+	public static final char STOCKCHARTS = 'S';
+	public static final char GOOGLE = 'G';
+	public static final char YAHOO_OLD = 'O';
+	
+	private long id;
+	private String companyName;
+	private char status;
+	private double entryPrice;
+	private double targetPrice;
+	private long entryDate;
+	private long closedDate;
+	private String yahooLink;
+	private String googleLink;
+	private String stocklinkr;
+	private String reasonForEntry;
+	private String reasonForClosure;
+	private char typeOfGraph;
+	
+	public long getClosedDate() {
+		return closedDate;
+	}
+	public void setClosedDate(long closedDate) {
+		this.closedDate = closedDate;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public long getEntryDate() {
+		return entryDate;
+	}
+	public void setEntryDate(long entryDate) {
+		this.entryDate = entryDate;
+	}
+	public double getEntryPrice() {
+		return entryPrice;
+	}
+	public void setEntryPrice(double entryPrice) {
+		this.entryPrice = entryPrice;
+	}
+	public String getGoogleLink() {
+		return googleLink;
+	}
+	public void setGoogleLink(String googleLink) {
+		this.googleLink = googleLink;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getReasonForClosure() {
+		return reasonForClosure;
+	}
+	public void setReasonForClosure(String reasonForClosure) {
+		this.reasonForClosure = reasonForClosure;
+	}
+	public String getReasonForEntry() {
+		return reasonForEntry;
+	}
+	public void setReasonForEntry(String reasonForEntry) {
+		this.reasonForEntry = reasonForEntry;
+	}
+	public char getStatus() {
+		return status;
+	}
+	public void setStatus(char status) {
+		this.status = status;
+	}
+	public String getStocklinkr() {
+		return stocklinkr;
+	}
+	public void setStocklinkr(String stocklinkr) {
+		this.stocklinkr = stocklinkr;
+	}
+	public double getTargetPrice() {
+		return targetPrice;
+	}
+	public void setTargetPrice(double targetPrice) {
+		this.targetPrice = targetPrice;
+	}
+	public char getTypeOfGraph() {
+		return typeOfGraph;
+	}
+	public void setTypeOfGraph(char typeOfGraph) {
+		this.typeOfGraph = typeOfGraph;
+	}
+	public String getYahooLink() {
+		return yahooLink;
+	}
+	public void setYahooLink(String yahooLink) {
+		this.yahooLink = yahooLink;
+	}
+	
+	
+}

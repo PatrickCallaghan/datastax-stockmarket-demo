@@ -1,0 +1,8 @@
+package com.oak.tradesystem.exception;
+
+public class AnalysisException extends Exception {
+
+	public AnalysisException(String message){
+		super (message);
+	}
+}

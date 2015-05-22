@@ -1,0 +1,38 @@
+package com.oak.tradesystem.commands;
+
+public class GetCorrelationCoefficientCommand implements Command {
+
+	private double corrCoefficient;
+	private double prices1[];
+	private double prices2[];
+	
+	public void execute() {
+		
+		if (this.prices1!=null && this.prices2!=null && this.prices1.length==this.prices2.length){
+			
+			double diffs1[] = new double[prices1.length-1];
+			double diffs2[] = new double[prices2.length-1];
+			
+			for (int i=1; i < prices1.length; i++){
+				
+				diffs1[i-1] = (prices1[i] - prices1[i-1])*100/prices1[i-1];
+				diffs2[i-1] = (prices2[i] - prices2[i-1])*100/prices2[i-1];
+			}
+			
+			
+			this.corrCoefficient = com.oak.tradesystem.technalysis.Correlation.getPearsonCorrelation(diffs1, diffs2);
+		}
+	}
+
+	public double getCorrCoefficient() {
+		return corrCoefficient;
+	}
+
+	public void setPrices1(double[] prices1) {
+		this.prices1 = prices1;
+	}
+
+	public void setPrices2(double[] prices2) {
+		this.prices2 = prices2;
+	}
+}

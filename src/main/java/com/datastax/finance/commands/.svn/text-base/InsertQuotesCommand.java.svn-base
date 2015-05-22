@@ -1,0 +1,44 @@
+package com.oak.tradesystem.commands;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.yahoo.QuoteVO;
+import com.oak.utils.DatabaseUtil;
+
+public class InsertQuotesCommand implements Command {
+
+	private List<QuoteVO> quotes = new ArrayList<QuoteVO>();
+	private Properties properties;
+	
+	
+	public void setQuotes(List<QuoteVO> quotes) {
+		this.quotes = quotes;
+	}
+
+	public InsertQuotesCommand(Properties properties){
+		this.properties = properties;
+	}
+
+	public void execute(){
+		try {
+	    	DatabaseUtil db = new DatabaseUtil();
+	    	Connection connection = db.getMYSQLConnection(properties);
+	    	long time1 = System.currentTimeMillis();
+	    	
+	    	db.insertQuotes(connection, properties, quotes);
+	    	
+	    	long time2 = System.currentTimeMillis();
+	    	
+	    	System.out.println("Created " + quotes.size() + " new quotes in " + (time2-time1) + "ms.");
+	    	
+	    	connection.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

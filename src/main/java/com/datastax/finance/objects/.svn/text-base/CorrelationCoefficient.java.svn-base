@@ -1,0 +1,38 @@
+package com.oak.tradesystem.objects;
+
+public class CorrelationCoefficient {
+	
+	private long tickerId1;
+	private long tickerId2;
+	private double coefficient;
+	
+	public CorrelationCoefficient(){
+		
+	}
+	public CorrelationCoefficient(long tickerId1, long tickerId2, double coefficient){
+		this.tickerId1 = tickerId1;
+		this.tickerId2 = tickerId2;
+		this.coefficient = coefficient;
+	}
+	
+	public long getTickerId1() {
+		return tickerId1;
+	}
+	public void setTickerId1(long tickerId1) {
+		this.tickerId1 = tickerId1;
+	}
+	public long getTickerId2() {
+		return tickerId2;
+	}
+	public void setTickerId2(long tickerId2) {
+		this.tickerId2 = tickerId2;
+	}
+	public double getCoefficient() {
+		return coefficient;
+	}
+	public void setCoefficient(double coefficient) {
+		this.coefficient = coefficient;
+	}
+	
+	
+}

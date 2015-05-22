@@ -1,0 +1,88 @@
+package com.oak.tradesystem.commands;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import com.oak.tradesystem.objects.yahoo.TickerNameVO;
+import com.oak.utils.DatabaseUtil;
+
+public class LoadTickersCommand implements Command {
+
+	private List<TickerNameVO> tickerNames = new ArrayList<TickerNameVO>();
+	private List<String> tickers = new ArrayList<String>();
+	private Properties properties;
+	private String index;
+	
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
+	public List<TickerNameVO> getTickerNames() {
+		return tickerNames;
+	}
+	
+	public List<String> getTickers(){
+		for (TickerNameVO tickerName : tickerNames){
+			tickers.add(tickerName.getTicker());
+		}
+		
+		return tickers;
+	}
+	
+	public Map<Long, String> getTickerNameMap(){
+		
+		Map<Long, String> map = new HashMap<Long, String>();
+		
+		for (TickerNameVO tickerName : tickerNames){
+			map.put(new Long(tickerName.getId()), tickerName.getTicker());
+		}
+		return map;
+	}
+	
+	
+	public Map<String, Long> getTickerIdMap(){
+		
+		Map<String, Long> map = new HashMap<String, Long>();
+		
+		for (TickerNameVO tickerName : tickerNames){
+			map.put(tickerName.getTicker(), new Long(tickerName.getId()));
+		}
+		return map;
+	}
+	
+	public LoadTickersCommand(Properties properties){
+		this.properties = properties;
+	}
+	
+
+	public void execute(){
+		try {
+	    	DatabaseUtil db = new DatabaseUtil();
+	    	Connection connection = db.getMYSQLConnection(properties);
+	    	
+	    	if (index == null || index.equalsIgnoreCase("") ){
+	    		tickerNames = db.getTickerNames(connection, properties);
+	    	}else{
+	    		tickerNames = db.getTickerNamesByIndex(connection, properties, index);
+	    	}
+	    		
+	    	
+	    	System.out.println(tickerNames.size() + " tickers loaded.");
+	    	connection.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+}
