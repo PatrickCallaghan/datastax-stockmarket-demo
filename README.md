@@ -14,6 +14,13 @@ To create the a single node cluster with replication factor of 1 for standard lo
     mvn clean compile exec:java -Dexec.mainClass="com.datastax.demo.SchemaSetup"
 
 
+Load the static data using a cqlsh session 
+
+	copy exchange_metadata(exchange, symbol, name) from 'src/main/resources/NASDAQ-tickers.csv';
+	
+	copy exchange_metadata(exchange, symbol, name) from 'src/main/resources/ftse-tickers.csv';
+
+
 To load 10000 days for each exchange, run the following (this may take awhile)
 
 	mvn exec:java -Dexec.mainClass="com.datastax.finance.processor.StockMarketLoader" -Dexchange=FTSE -Ddays=10000
