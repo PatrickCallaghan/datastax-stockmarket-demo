@@ -6,7 +6,7 @@
 	<groupId>com.datastax.demo</groupId>
 	<artifactId>datastax-stockmarket-demo</artifactId>
 	<version>0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<dependencies>
 		<dependency>
@@ -118,5 +118,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+
+        	<finalName>stock-demo</finalName>
 	</build>
 </project>

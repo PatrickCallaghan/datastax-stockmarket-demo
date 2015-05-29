@@ -13,7 +13,7 @@ public class StockMarketRunner implements Runnable{
 	
 	public static void main(String args[]){
 		
-		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
+		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "192.168.104.1,192.168.104.5");
 		String exchange = PropertyHelper.getProperty("exchange", "FTSE");
 		
 		Thread t = new Thread(new StockMarketRunner(exchange, contactPointsStr));

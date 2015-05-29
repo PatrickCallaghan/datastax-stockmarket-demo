@@ -23,7 +23,7 @@ public class StockMarketLoader implements Runnable{
 	}
 	
 	public StockMarketLoader(){
-		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
+		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "192.168.104.1,192.168.104.5");
 
 		this.exchange = PropertyHelper.getProperty("exchange", "FTSE");
 		this.dao = new ReferenceDao(contactPointsStr.split(","));

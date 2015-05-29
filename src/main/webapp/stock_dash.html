@@ -39,7 +39,7 @@
 	  function drawChart() {
 
 		var chartData;
-		var url = 'http://localhost:8080/datastax-stockmarket-demo/rest/get/candlestick/timeseries?exchange=' + exchange + '&ticker=' + ticker + ''
+		var url = 'http://192.168.104.2:8080/stock-demo/rest/get/candlestick/timeseries?exchange=' + exchange + '&ticker=' + ticker + ''
 	  
         $.ajax({
           url:  url,
@@ -80,7 +80,7 @@
 
       function drawTables() {
       
-		var url = 'http://localhost:8080/datastax-stockmarket-demo/rest/get/top5?exchange=' + exchange
+		var url = 'http://192.168.104.2:8080/stock-demo/rest/get/top5?exchange=' + exchange
 	  
         $.ajax({
           url:  url,
@@ -135,7 +135,7 @@
           }
         });  
 
-		url = 'http://localhost:8080/datastax-stockmarket-demo/rest/get/bottom5?exchange=' + exchange
+		url = 'http://192.168.104.2:8080/stock-demo/rest/get/bottom5?exchange=' + exchange
 	  
         $.ajax({
           url:  url,
