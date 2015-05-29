@@ -1,5 +1,6 @@
 package com.datastax.finance.webservices;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +48,12 @@ public class StockMarketWS {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTickerTimeSeriesChart(@QueryParam("exchange") String exchange, @QueryParam("ticker") String ticker, @QueryParam("start") long start,
 			@QueryParam("end") long end) {
-
+		
+		if (start == 0 && end == 0){
+			end = new DateTime().now().getMillis();
+		    start = new DateTime().now().minusDays(60).getMillis();
+		}
+		
 		CandleStickSeries candleStickSeries = this.service.getCandleStickByTickerAndTime(exchange, ticker, start, end);
 		
 		return Response.status(201).entity(candleStickSeries.toChartString()).build();
@@ -68,9 +75,39 @@ public class StockMarketWS {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBiggestChangers(@QueryParam("exchange") String exchange){
 		List<TradeQuote> biggestChangers = service.getBiggestChangers(exchange);
-		return Response.status(201).entity(biggestChangers).build();
+		return Response.status(201).entity(toChartArray(biggestChangers)).build();
 	}
 	
+	@GET
+	@Path("/get/top5")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTop5(@QueryParam("exchange") String exchange){
+		List<TradeQuote> biggestChangers = service.getBiggestChangers(exchange).subList(0, 5);;
+		return Response.status(201).entity(toChartArray(biggestChangers)).build();
+	}
+	
+	@GET
+	@Path("/get/bottom5")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBottom5(@QueryParam("exchange") String exchange){
+		List<TradeQuote> biggestChangers = service.getBiggestChangers(exchange);
+		Collections.reverse(biggestChangers);
+		return Response.status(201).entity(toChartArray(biggestChangers.subList(0, 5))).build();
+	}
+
+	
+	private String toChartArray(List<TradeQuote> biggestChangers) {
+		
+		String str = "";
+		
+		for (TradeQuote tradeQuote : biggestChangers){
+			str = str + tradeQuote.toChartString() + ",";
+		}
+		str = str.substring(0, str.lastIndexOf(","));
+				
+		return "[" + str + "]";
+	}
+
 	@GET
 	@Path("/get/companydata")
 	@Produces(MediaType.APPLICATION_JSON)

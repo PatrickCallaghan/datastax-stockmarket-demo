@@ -1,5 +1,7 @@
 package com.datastax.finance.objects;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 /**
@@ -7,6 +9,8 @@ import java.util.Date;
  */
 public class TradeQuote implements java.io.Serializable{
 
+	private static NumberFormat printFormatter = new DecimalFormat("#0.###	");
+	
 	private String name;
 	private double price;
 	private Date date;
@@ -122,11 +126,14 @@ public class TradeQuote implements java.io.Serializable{
 		this.volume = volume;
 	}
 
-	@Override
+	
 	public String toString() {
 		return "TradeQuote [name=" + name + ", price=" + price + ", date=" + date + ", change=" + change
 				+ " percentChange=" + percentChange + ", todaysStart=" + todaysStart + ", daysMax=" + daysMax + ", daysMin=" + daysMin + ", volume="
 				+ volume + "]";
+	}
+	public String toChartString() {
+		return "[\"" + name +  "\"," + printFormatter.format(price) + ", " + printFormatter.format(change) + ", " + printFormatter.format((price - change)) + "," + printFormatter.format(percentChange) + "]";
 	}
 }
 

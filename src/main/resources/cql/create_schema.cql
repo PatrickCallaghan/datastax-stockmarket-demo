@@ -1,4 +1,4 @@
-create keyspace if not exists datastax_stockmarket_demo WITH replication = {'class': 'NetworkTopologyStrategy', 'Analytics': 3};
+create keyspace if not exists datastax_stockmarket_demo WITH replication = {'class': 'NetworkTopologyStrategy', 'Cassandra': 3};
 
 use datastax_stockmarket_demo; 
 

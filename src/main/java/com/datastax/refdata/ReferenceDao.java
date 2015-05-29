@@ -89,10 +89,16 @@ public class ReferenceDao {
 		this.selectStmtTickersByExchange = session.prepare(SELECT_TICKERS_BY_EXCHANGE);
 		this.selectStmtTickersByExchangeSymbol = session.prepare(SELECT_TICKERS_BY_EXCHANGE_AND_SYMBOL);
 
-		this.insertStmtHistoric.setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
-		this.insertStmtDividend.setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
-		this.insertStmtMetaData.setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
-		this.insertStmtLatest.setConsistencyLevel(ConsistencyLevel.LOCAL_QUORUM);
+		this.insertStmtHistoric.setConsistencyLevel(ConsistencyLevel.ONE);
+		this.insertStmtDividend.setConsistencyLevel(ConsistencyLevel.ONE);
+		this.insertStmtMetaData.setConsistencyLevel(ConsistencyLevel.ONE);
+		this.insertStmtLatest.setConsistencyLevel(ConsistencyLevel.ONE);
+		
+		this.selectStmtLatest.setConsistencyLevel(ConsistencyLevel.ONE);
+		this.selectStmtByKeyAndDate.setConsistencyLevel(ConsistencyLevel.ONE);
+		this.selectStmtTickersByExchange.setConsistencyLevel(ConsistencyLevel.ONE);
+		this.selectStmtTickersByExchangeSymbol.setConsistencyLevel(ConsistencyLevel.ONE);	
+
 	}
 
 	public void insertHistoricData(List<HistoricData> list) throws Exception {
@@ -298,6 +304,7 @@ public class ReferenceDao {
 	}
 
 	public CandleStickSeries selectHLOC(String exchange, String ticker, long start, long end) {
+				
 		BoundStatement boundStmt = this.selectStmtByKeyAndDate.bind(exchange, ticker, new Date(start), new Date(end));
 		CandleStickSeries series = new CandleStickSeries(ticker);
 		
