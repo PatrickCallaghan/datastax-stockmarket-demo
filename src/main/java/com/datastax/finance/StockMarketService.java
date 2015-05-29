@@ -19,7 +19,7 @@ import com.datastax.refdata.model.TimeSeries;
 public class StockMarketService {
 	
 	private Logger logger = LoggerFactory.getLogger(StockMarketService.class);
-	private ReferenceDao dao = new ReferenceDao(new String[]{"localhost"});
+	private ReferenceDao dao = new ReferenceDao(new String[]{"192.168.104.1"});
 
 	public TimeSeries getTimeSeriesByTickerAndTime(String exchange, String ticker) {
 					
