@@ -1,0 +1,39 @@
+-- Setup for installation
+
+--Install Java 8 
+apt-get install software-properties-common
+add-apt-repository ppa:webupd8team/java
+apt-get update
+apt-get install oracle-java7-installer
+
+-- Run the installer
+mkdir /opt/depot
+mount 10.10.0.1:/opt/depot /opt/depot
+cd /opt/depot/Datastax_kits/ 
+./DataStaxEnterprise-4.7.0.2015051919-linux-x64-installer.run
+
+-- For Datastax agent
+apt-get install sysstat
+
+
+-- OpsCenter 
+http://192.168.104.1:8888/opscenter/index.html
+
+
+
+--- Cassandra Stress
+
+//Run the following commands at /usr/share/dse/resources/cassandra/tools/bin 
+//or add the it the path to the System variable.
+
+-- For Write Workload with Replication factor 3 
+cassandra-stress write n=100000000 cl=one -mode native cql3 -schema keyspace="stress_write" replication\(factor=3\) -pop seq=1..1000000 -node 192.168.104.1
+
+-- For Read Workload with Replication factor 3 
+cassandra-stress read n=100000000 cl=one -mode native cql3 -schema keyspace="stress_read" replication\(factor=3\) -pop seq=1..1000000 -node 192.168.104.1
+
+-- For Mixed Workload with Replication factor 3 
+cassandra-stress mixed n=100000000 cl=one -mode native cql3 -schema keyspace="stress_mixed" replication\(factor=3\) -pop seq=1..1000000 -node 192.168.104.1
+
+-- Specifying the ratio for mixed workloads 
+cassandra-stress mixed ratio\(write=1,read=3\) n=1000000 cl=one -mode native cql3 -schema keyspace="stress_mixed_ratio" replication\(factor=3\) -pop seq=1..1000000 -node 192.168.104.3

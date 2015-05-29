@@ -1,0 +1,217 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart", "table"]});
+      google.setOnLoadCallback(function() {
+      	drawChart();
+      	drawTables();      	
+      });
+      
+      var ticker = 'BARC.L';
+      var exchange = 'FTSE';
+
+	  function changeExchange(){
+	  	var selectBox = document.getElementById("exchangeSelect");
+    	exchange = selectBox.options[exchangeSelect.selectedIndex].value;
+    	
+    	if (exchange=='FTSE'){
+    		ticker= 'BARC.L';
+    	}else if (exchange=='NASDAQ'){
+    		ticker = 'AAPL';
+    	}
+    	drawChart();
+    	drawTables();    	
+      }
+
+	  	  
+	  function redrawChart(){
+	  	ticker = search_form.search.value.toUpperCase();
+	    drawChart();	     	  	
+	  }
+	 
+	  function itemSelected(value){
+	  	ticker = value;
+	    drawChart();	     	  	
+	  }
+	  
+	  function drawChart() {
+
+		var chartData;
+		var url = 'http://localhost:8080/datastax-stockmarket-demo/rest/get/candlestick/timeseries?exchange=' + exchange + '&ticker=' + ticker + ''
+	  
+        $.ajax({
+          url:  url,
+          sync: "true",	
+          success: function(data){
+            if(data){
+                if (data==''){
+                	alert ('No data available for ' + ticker);
+                	return
+                }
+
+                chartData = data;
+                
+                var dataForChart = google.visualization.arrayToDataTable(chartData, true);                            
+                
+                var options = {
+                  title: 'Data for ' + ticker,
+                  legend:'none',
+                  animation: {startup: true},
+                  bar: { groupWidth: '90%' },
+                  chartArea: {left: 70, top: 70},                                
+            	  candlestick: { fallingColor: { strokeWidth: '1'}, risingColor: { strokeWidth: '1'}},
+                };
+
+               var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+  		       chart.draw(dataForChart, options);
+  		      
+            }
+          },
+		   error: function(XMLHttpRequest, textStatus, errorThrown) { 
+              alert("Status: " + textStatus); 
+             alert("Error: " + errorThrown); 
+          }   
+          
+        })
+      }
+
+      function drawTables() {
+      
+		var url = 'http://localhost:8080/datastax-stockmarket-demo/rest/get/top5?exchange=' + exchange
+	  
+        $.ajax({
+          url:  url,
+          sync: "true",	
+          success: function(data){
+            if(data){
+                if (data==''){
+                	alert ('No data available for ' + ticker);
+                	return
+                }
+      
+		        var data1 = new google.visualization.DataTable();
+		        data1.addColumn('string', 'Ticker');
+		        data1.addColumn('number', 'Price');
+		        data1.addColumn('number', 'Change');
+		        data1.addColumn('number', 'Open');
+		        data1.addColumn('number', '% Change');
+		       
+		        data1.addRows(data);
+		        
+		        var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+		        table1.draw(data1);
+		        
+		        google.visualization.events.addListener(table1, 'select', selectHandler);
+
+				// The selection handler.
+				// Loop through all items in the selection and concatenate
+				// a single message from all of them.
+				function selectHandler() {
+				  var selection = table1.getSelection();
+				  var message = '';
+				  for (var i = 0; i < selection.length; i++) {
+				    var item = selection[i];
+				    if (item.row != null && item.column != null) {
+				      var str = data1.getFormattedValue(item.row, item.column);
+				    } else if (item.row != null) {
+				      var str = data1.getFormattedValue(item.row, 0);
+				    } else if (item.column != null) {
+				      var str = data1.getFormattedValue(0, item.column);
+				    }
+				  }
+				  
+				  
+					itemSelected(str);  
+				}
+		        
+		      }
+		  },
+		  error: function(XMLHttpRequest, textStatus, errorThrown) { 
+              alert("Status: " + textStatus); 
+             alert("Error: " + errorThrown); 
+          }
+        });  
+
+		url = 'http://localhost:8080/datastax-stockmarket-demo/rest/get/bottom5?exchange=' + exchange
+	  
+        $.ajax({
+          url:  url,
+          sync: "true",	
+          success: function(data){
+            if(data){
+                if (data==''){
+                	alert ('No data available for ' + ticker);
+                	return
+                }
+      
+		        var data2 = new google.visualization.DataTable();
+		        data2.addColumn('string', 'Ticker');
+		        data2.addColumn('number', 'Price');
+		        data2.addColumn('number', 'Change');
+		        data2.addColumn('number', 'Open');
+		        data2.addColumn('number', '% Change');
+		       
+		        data2.addRows(data);
+		        
+		        var table2 = new google.visualization.Table(document.getElementById('table_div2'));
+		        table2.draw(data2);
+		        		        
+				google.visualization.events.addListener(table2, 'select', selectHandler);
+
+				// The selection handler.
+				// Loop through all items in the selection and concatenate
+				// a single message from all of them.
+				function selectHandler() {
+				  var selection = table1.getSelection();
+				  var message = '';
+				  for (var i = 0; i < selection.length; i++) {
+				    var item = selection[i];
+				    if (item.row != null && item.column != null) {
+				      var str = data2.getFormattedValue(item.row, item.column);
+				      message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+				    } else if (item.row != null) {
+				      var str = data2.getFormattedValue(item.row, 0);
+				      message += '{row:' + item.row + ', column:none}; value (col 0) = ' + str + '\n';
+				    } else if (item.column != null) {
+				      var str = data2.getFormattedValue(0, item.column);
+				      message += '{row:none, column:' + item.column + '}; value (row 0) = ' + str + '\n';
+				    }
+				  }
+				  if (message == '') {
+				    message = 'nothing';
+				  }
+				  alert('You selected ' + message);
+				}
+		     }
+		  },
+		  error: function(XMLHttpRequest, textStatus, errorThrown) { 
+              alert("Status: " + textStatus); 
+             alert("Error: " + errorThrown); 
+          }
+        });  
+
+  }
+  
+  
+    </script>
+  </head>
+  <body>
+    <div id="search" style="margin-left: auto; margin-right: auto; width:600px; height:40px;">
+    	<form id='search_form' action='javascript:redrawChart()'>
+    		Choose an exchange : 
+    		<select id="exchangeSelect" onchange='changeExchange()'>    		
+    			<option value="FTSE" selected>FTSE</option>
+    			<option value="NASDAQ">NASDAQ</option>
+    		</select>
+    		
+    		Choose a ticker : <input id='search' type='search'/>
+    	</form>
+    </div>
+  	<div id="chart_div" style="position: fixed; top: 50px; left: 400px; width: 1100px; height: 800px;"></div>
+    <div id="table_div1" style="position: fixed; top: 50px;  " >Biggest Winners</div>
+    <div id="table_div2" style="position: fixed; top: 200px; " >Biggest Losers</div>    
+  </body>
+</html>
